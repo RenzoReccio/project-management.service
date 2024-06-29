@@ -14,7 +14,7 @@ export const QueryHandlers = [GetProjectsHandler, GetTaskHandler]
     imports: [CqrsModule],
     providers: [
         {
-            provide: "ITaskRepository",
+            provide: ITaskRepository,
             useClass: TaskRepository,
         },
         ...CommandHandlers,

@@ -1,8 +1,8 @@
 import { Task } from "./task";
 
-export interface ITaskRepository {
-    Insert(task: Task): Promise<number>;
-    GetIdByExternalId(externalId: number): Promise<number>;
-    Update(id: number, task: Task): Promise<boolean>;
-    Get(): Promise<any>
+export abstract class ITaskRepository {
+    abstract Insert(task: Task): Promise<number>;
+    abstract GetIdByExternalId(externalId: number): Promise<number>;
+    abstract Update(id: number, task: Task): Promise<boolean>;
+    abstract Get(): Promise<any>
 }

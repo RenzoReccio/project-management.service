@@ -8,7 +8,7 @@ import { Task } from "src/domain/tasks/task";
 export class CreateTaskHandler implements ICommandHandler<CreateTaskCommand> {
 
     constructor(
-        @Inject('ITaskRepository') private taskRepository: ITaskRepository
+        private taskRepository: ITaskRepository
     ) { }
 
     async execute(command: CreateTaskCommand): Promise<any> {

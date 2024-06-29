@@ -15,7 +15,6 @@ export class TaskRepository implements ITaskRepository {
         let insert = await TaskEntity.create(
             {
                 id: id,
-                externalId: task.id,
                 areaPath: task.areaPath,
                 teamProject: task.teamProject,
                 iterationPath: task.iterationPath,
