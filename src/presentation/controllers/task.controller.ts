@@ -37,9 +37,12 @@ export class TaskController {
     }
 
     @Post('')
-    async createTask(@Body(new PubSubPipe<CreateTaskCommand>(CreateTaskCommand)) command: CreateTaskCommand) {
-        console.log(command)
-        return await this._commandBus.execute(command);
+    async createTask(@Body() request: PubSubRequest) {
+        var parsedObject = atob(request.message.data);
+
+        const command = Object.assign(new CreateTaskCommand(), JSON.parse(parsedObject));
+
+        return this._commandBus.execute(command)
     }
 
     @Put()
