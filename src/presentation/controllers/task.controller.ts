@@ -38,6 +38,7 @@ export class TaskController {
 
     @Post('')
     async createTask(@Body(new PubSubPipe<CreateTaskCommand>(CreateTaskCommand)) command: CreateTaskCommand) {
+        console.log(command)
         return await this._commandBus.execute(command);
     }
 
