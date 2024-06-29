@@ -1,10 +1,9 @@
-import { Comment } from "../comment/comment";
-import { UserStory } from "../user-story/user-story";
-import { User } from "../users/user";
+import { Comment } from '../comment/comment';
+import { Project } from '../projects/project';
+import { User } from '../users/user';
 
-export class Task {
+export class Feature {
   id: number;
-  externalId: number;
   areaPath: string;
   teamProject: string;
   iterationPath: string;
@@ -12,15 +11,19 @@ export class Task {
   state: string;
   reason: string;
   assignedTo: User;
+  createdDate: Date;
   title: string;
-  remainingWork: number;
-  originalEstimate: number;
-  completedWork: number;
-  activity: string;
   priority: number;
+  valueArea: string;
+  risk: string;
+  targetDate: Date;
+  businessValue: number;
+  timeCriticality: number;
+  effort: number;
+  startDate: Date;
   description: string;
   tags: string;
-  userStoryParent: UserStory;
+  parentProject: Project;
   url: string;
   comments: Comment[];
   pageUrl: string;
@@ -34,19 +37,22 @@ export class Task {
     state: string,
     reason: string,
     assignedTo: User,
+    createdDate: Date,
     title: string,
-    remainingWork: number,
-    originalEstimate: number,
-    completedWork: number,
-    activity: string,
     priority: number,
+    valueArea: string,
+    risk: string,
+    targetDate: Date,
+    businessValue: number,
+    timeCriticality: number,
+    effort: number,
+    startDate: Date,
     description: string,
     tags: string,
-    userStoryParent: UserStory,
+    parentProject: Project,
     url: string,
     comments: Comment[],
-    pageUrl: string,
-    externalId: number
+    pageUrl: string
   ) {
     this.id = id;
     this.areaPath = areaPath;
@@ -56,18 +62,21 @@ export class Task {
     this.state = state;
     this.reason = reason;
     this.assignedTo = assignedTo;
+    this.createdDate = createdDate;
     this.title = title;
-    this.remainingWork = remainingWork;
-    this.originalEstimate = originalEstimate;
-    this.completedWork = completedWork;
-    this.activity = activity;
     this.priority = priority;
+    this.valueArea = valueArea;
+    this.risk = risk;
+    this.targetDate = targetDate;
+    this.businessValue = businessValue;
+    this.timeCriticality = timeCriticality;
+    this.effort = effort;
+    this.startDate = startDate;
     this.description = description;
     this.tags = tags;
-    this.userStoryParent = userStoryParent;
+    this.parentProject = parentProject;
     this.url = url;
     this.comments = comments;
     this.pageUrl = pageUrl;
-    this.externalId = externalId;
   }
 }

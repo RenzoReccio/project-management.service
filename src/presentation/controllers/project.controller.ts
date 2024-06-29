@@ -5,38 +5,33 @@ import { GetProjectsQuery } from 'src/application/projects/queries/get-projects/
 
 @Controller()
 export class ProjectController {
+  constructor(
+    private _queryBus: QueryBus,
+    private _commandBus: CommandBus,
+  ) {}
 
-    constructor(
-        private _queryBus: QueryBus,
-        private _commandBus: CommandBus
-    ) { }
+  @Get('get-projects')
+  async getProjects(): Promise<string> {
+    const query = new GetProjectsQuery();
 
-    @Get('get-projects')
-    async getProjects(): Promise<string> {
+    return this._queryBus.execute(query);
+  }
 
-        const query = new GetProjectsQuery()
+  @Get()
+  getProjectById(): string {
+    return "I'm not a fool";
+  }
 
-        return this._queryBus.execute(query)
-    }
+  @Post('create-project')
+  createProject() {
+    const command = new CreateProjectCommand('12', 'project name');
 
-    @Get()
-    getProjectById(): string {
+    return this._commandBus.execute(command);
+  }
 
-        return "I'm not a fool";
-    }
+  @Put()
+  updateProject() {}
 
-    @Post('create-project')
-    createProject() { 
-        
-        const command = new CreateProjectCommand('12', 'project name')
-
-        return this._commandBus.execute(command)
-    }
-
-    @Put()
-    updateProject() { }
-
-    @Delete()
-    removeProject() { }
-
+  @Delete()
+  removeProject() {}
 }

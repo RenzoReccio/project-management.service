@@ -5,9 +5,10 @@ import { InvoiceController } from './controllers/invoice.controller';
 import { ProjectController } from './controllers/project.controller';
 import { TaskController } from './controllers/task.controller';
 import { UserController } from './controllers/user.controller';
+import { InfraestructureModule } from 'src/infrastructure/infrastructure.module';
 
 @Module({
-    imports: [ApplicationModule, CqrsModule],
+    imports: [ApplicationModule, CqrsModule, InfraestructureModule],
     controllers: [
         InvoiceController,
         ProjectController,
