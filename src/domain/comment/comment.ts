@@ -1,13 +1,15 @@
+import { Person } from "../person/person";
+
 export class Comment {
-    date: Date;
-    user: string;
-    userUniqueName: string;
-    text: string;
-  
-    constructor(date: Date, user: string, userUniqueName: string, text: string) {
-      this.date = date;
-      this.user = user;
-      this.userUniqueName = userUniqueName;
-      this.text = text;
-    }
+  id: number
+  date: Date;
+  user: Person
+  text: string;
+
+  constructor({ id, date, user, text }: { id: number; date: Date; user: Person; text: string; }) {
+    this.id = id;
+    this.date = date;
+    this.user = user;
+    this.text = text;
   }
+}

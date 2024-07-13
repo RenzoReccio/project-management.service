@@ -3,9 +3,10 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ApplicationModule } from 'src/application/application.module';
 import { InvoiceController } from './controllers/invoice.controller';
 import { ProjectController } from './controllers/project.controller';
-import { TaskController } from './controllers/task.controller';
 import { UserController } from './controllers/user.controller';
 import { InfraestructureModule } from 'src/infrastructure/infrastructure.module';
+import { TaskController } from './controllers/task/task.controller';
+import { MessageController } from './controllers/message/message.controller';
 
 @Module({
     imports: [ApplicationModule, CqrsModule, InfraestructureModule],
@@ -13,7 +14,8 @@ import { InfraestructureModule } from 'src/infrastructure/infrastructure.module'
         InvoiceController,
         ProjectController,
         TaskController,
-        UserController
+        UserController,
+        MessageController
     ],
     providers: [],
 })

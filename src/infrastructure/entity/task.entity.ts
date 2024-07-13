@@ -1,7 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm';
+import { UserStoryEntity } from './user-story.entity';
+import { PersonEntity } from './person.entity';
 
 @Entity()
-export class Task extends BaseEntity {
+export class TaskEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,19 +20,13 @@ export class Task extends BaseEntity {
   iterationPath: string;
 
   @Column({ nullable: true })
-  workItemType: string;
-
-  @Column({ nullable: true })
   state: string;
 
   @Column({ nullable: true })
   reason: string;
 
-  @Column({ nullable: true })
-  displayName: string;
-
-  @Column({ nullable: true })
-  uniqueName: string;
+  @ManyToOne(() => PersonEntity, { nullable: true })
+  assignedTo: PersonEntity
 
   @Column({ nullable: true })
   title: string;
@@ -58,4 +54,7 @@ export class Task extends BaseEntity {
 
   @Column({ nullable: true })
   pageUrl: string;
+
+  @ManyToOne(() => UserStoryEntity, { nullable: true })
+  userStoryParent: UserStoryEntity
 }

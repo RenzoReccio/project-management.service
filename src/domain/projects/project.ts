@@ -1,15 +1,15 @@
-import { User } from 'src/domain/users/user';
 import { Comment } from '../comment/comment';
+import { Person } from '../person/person';
 
 export class Project {
   id: number;
+  externalId: number;
   areaPath: string;
   teamProject: string;
   iterationPath: string;
-  workItemType: string;
   state: string;
   reason: string;
-  assignedTo: User;
+  assignedTo: Person;
   createdDate: Date;
   title: string;
   description: string;
@@ -27,35 +27,24 @@ export class Project {
   comments: Comment[];
 
   constructor(
-    id: number,
-    areaPath: string,
-    teamProject: string,
-    iterationPath: string,
-    workItemType: string,
-    state: string,
-    reason: string,
-    assignedTo: User,
-    createdDate: Date,
-    title: string,
-    description: string,
-    priority: number,
-    valueArea: string,
-    risk: string,
-    businessValue: number,
-    timeCriticality: number,
-    effort: number,
-    startDate: Date,
-    targetDate: Date,
-    url: string,
-    pageUrl: string,
-    tags: string,
-    comments: Comment[]
-  ) {
+    { id, externalId, areaPath, teamProject,
+      iterationPath, state, reason, assignedTo, createdDate,
+      title, description, priority, valueArea, risk, businessValue,
+      timeCriticality, effort, startDate, targetDate,
+      url, pageUrl, tags, comments }:
+      {
+        id: number; externalId: number; areaPath: string; teamProject: string;
+        iterationPath: string; state: string; reason: string; assignedTo: Person;
+        createdDate: Date; title: string; description: string; priority: number;
+        valueArea: string; risk: string; businessValue: number; timeCriticality: number;
+        effort: number; startDate: Date; targetDate: Date; url: string;
+        pageUrl: string; tags: string; comments: Comment[];
+      }) {
     this.id = id;
+    this.externalId = externalId;
     this.areaPath = areaPath;
     this.teamProject = teamProject;
     this.iterationPath = iterationPath;
-    this.workItemType = workItemType;
     this.state = state;
     this.reason = reason;
     this.assignedTo = assignedTo;

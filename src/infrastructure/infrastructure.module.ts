@@ -4,8 +4,11 @@ import { join } from "path";
 import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } from "src/config";
 import { TaskRepository } from "./repository/task.repository";
 import { ConfigModule } from "@nestjs/config";
+import { ProjectRepository } from "./repository/project.repository";
+import { CommentRepository } from "./repository/comment.repository";
+import { FeatureRepository } from "./repository/feature.repository";
 
-const services = [TaskRepository]
+const services = [TaskRepository, ProjectRepository, CommentRepository, FeatureRepository]
 @Module({
     imports: [
         ConfigModule.forRoot(),

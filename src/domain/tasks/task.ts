@@ -8,7 +8,6 @@ export class Task {
   areaPath: string;
   teamProject: string;
   iterationPath: string;
-  workItemType: string;
   state: string;
   reason: string;
   assignedTo: User;
@@ -26,33 +25,20 @@ export class Task {
   pageUrl: string;
 
   constructor(
-    id: number,
-    areaPath: string,
-    teamProject: string,
-    iterationPath: string,
-    workItemType: string,
-    state: string,
-    reason: string,
-    assignedTo: User,
-    title: string,
-    remainingWork: number,
-    originalEstimate: number,
-    completedWork: number,
-    activity: string,
-    priority: number,
-    description: string,
-    tags: string,
-    userStoryParent: UserStory,
-    url: string,
-    comments: Comment[],
-    pageUrl: string,
-    externalId: number
-  ) {
+    { id, areaPath, teamProject, iterationPath, state, reason, assignedTo, title,
+      remainingWork, originalEstimate, completedWork, activity, priority,
+      description, tags, userStoryParent, url, comments, pageUrl, externalId }:
+      {
+        id: number; areaPath: string; teamProject: string; iterationPath: string;
+        state: string; reason: string; assignedTo: User; title: string;
+        remainingWork: number; originalEstimate: number; completedWork: number;
+        activity: string; priority: number; description: string; tags: string;
+        userStoryParent: UserStory; url: string; comments: Comment[]; pageUrl: string; externalId: number;
+      }) {
     this.id = id;
     this.areaPath = areaPath;
     this.teamProject = teamProject;
     this.iterationPath = iterationPath;
-    this.workItemType = workItemType;
     this.state = state;
     this.reason = reason;
     this.assignedTo = assignedTo;
