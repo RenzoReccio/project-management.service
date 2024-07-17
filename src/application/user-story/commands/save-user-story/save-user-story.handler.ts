@@ -5,6 +5,7 @@ import { SaveUserStoryCommand } from "./save-user-story.command";
 import { UserStory } from "src/domain/user-story/user-story";
 import { Person } from "src/domain/person/person";
 import { IUserStoryRepository } from "src/domain/user-story/user-story.repository";
+import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
 
 @CommandHandler(SaveUserStoryCommand)
 export class SaveUserStoryHandler implements ICommandHandler<SaveUserStoryCommand, UserStory> {
@@ -13,21 +14,31 @@ export class SaveUserStoryHandler implements ICommandHandler<SaveUserStoryComman
         private _personRepository: IPersonRepository,
         private _commentRepository: ICommentRepository,
         private _userStoryRepository: IUserStoryRepository,
+        private _eventLogRepository: IEventLogRepository
     ) { }
     async execute(command: SaveUserStoryCommand): Promise<UserStory> {
-        let persons = await this.ManagePersons(command);
-        let userStoryId = await this._userStoryRepository.GetIdByExternalId(command.Id);
-        let userStory = !userStoryId ? await this.InsertUserStory(command) : await this.UpdateUserStory(userStoryId, command);
-        await this._userStoryRepository.UpdateAssignedPerson(userStory.id, userStory)
-        await this._commentRepository.DeleteFromUserStoryId(userStory.id);
-        let commentsToInsert = command.Comments.map(item => item.ToComment())
-        commentsToInsert.forEach(item => {
-            item.user = persons.find(person => person.externalId == item.user.externalId);
-        })
-        if (commentsToInsert.length > 0) {
-            userStory.comments = await this._commentRepository.InsertForUserStory(userStory.id, commentsToInsert)
+        try {
+            await this._eventLogRepository.InsertLog(command.Url, `Start processing UserStory:${command.Id} for database.`);
+
+            let persons = await this.ManagePersons(command);
+            let userStoryId = await this._userStoryRepository.GetIdByExternalId(command.Id);
+            let userStory = !userStoryId ? await this.InsertUserStory(command) : await this.UpdateUserStory(userStoryId, command);
+            await this._userStoryRepository.UpdateAssignedPerson(userStory.id, userStory)
+            await this._commentRepository.DeleteFromUserStoryId(userStory.id);
+            let commentsToInsert = command.Comments.map(item => item.ToComment())
+            commentsToInsert.forEach(item => {
+                item.user = persons.find(person => person.externalId == item.user.externalId);
+            })
+            if (commentsToInsert.length > 0) {
+                userStory.comments = await this._commentRepository.InsertForUserStory(userStory.id, commentsToInsert)
+            }
+            await this._eventLogRepository.InsertLog(command.Url, `End processing UserStory:${command.Id} for database.`);
+
+            return userStory
+        } catch (error) {
+            this._eventLogRepository.InsertErrorLog(command.Url, String(error))
+            throw error
         }
-        return userStory
 
     }
     async InsertUserStory(command: SaveUserStoryCommand) {

@@ -1,14 +1,23 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { join } from "path";
-import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } from "src/config";
+import { DB_DATABASE, DB_HOST, DB_NAME_MONGO, DB_PASSWORD, DB_PORT, DB_URL_MONGO, DB_USER } from "src/config";
 import { TaskRepository } from "./repository/task.repository";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ProjectRepository } from "./repository/project.repository";
 import { CommentRepository } from "./repository/comment.repository";
 import { FeatureRepository } from "./repository/feature.repository";
+import { MongooseModule } from "@nestjs/mongoose";
+import { EventLogRepository } from "./repository/event-log.repository";
+import { EventLog, EventLogSchema } from "./schema/event-log.schema";
 
-const services = [TaskRepository, ProjectRepository, CommentRepository, FeatureRepository]
+const services = [
+    TaskRepository, 
+    ProjectRepository, 
+    CommentRepository, 
+    FeatureRepository,
+    EventLogRepository,
+]
 @Module({
     imports: [
         ConfigModule.forRoot(),
@@ -25,6 +34,13 @@ const services = [TaskRepository, ProjectRepository, CommentRepository, FeatureR
                 entities: [join(__dirname, './entity/*.entity{.ts,.js}')],
             })
         }),
+        MongooseModule.forRootAsync({
+            useFactory: () => ({
+                uri: DB_URL_MONGO(),
+                dbName: DB_NAME_MONGO()
+            })
+        }),
+        MongooseModule.forFeature([{ name: EventLog.name, schema: EventLogSchema }])
     ],
     exports: [
         ...services

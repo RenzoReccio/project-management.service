@@ -5,6 +5,7 @@ import { SaveFeatureCommand } from "./save-feature.command";
 import { IFeatureRepository } from "src/domain/feature/feature.repository";
 import { Person } from "src/domain/person/person";
 import { Feature } from "src/domain/feature/feature";
+import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
 
 @CommandHandler(SaveFeatureCommand)
 export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, Feature> {
@@ -12,22 +13,30 @@ export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, F
     constructor(
         private _featureRepository: IFeatureRepository,
         private _personRepository: IPersonRepository,
-        private _commentRepository: ICommentRepository
+        private _commentRepository: ICommentRepository,
+        private _eventLogRepository: IEventLogRepository
     ) { }
     async execute(command: SaveFeatureCommand): Promise<Feature> {
-        let persons = await this.ManagePersons(command);
-        let featureId = await this._featureRepository.GetIdByExternalId(command.Id);
-        let feature = !featureId ? await this.InsertFeature(command) : await this.UpdateFeature(featureId, command);
-        await this._featureRepository.UpdateAssignedPerson(feature.id, feature)
-        await this._commentRepository.DeleteFromFeatureId(feature.id);
-        let commentsToInsert = command.Comments.map(item => item.ToComment())
-        commentsToInsert.forEach(item => {
-            item.user = persons.find(person => person.externalId == item.user.externalId);
-        })
-        if (commentsToInsert.length > 0) {
-            feature.comments = await this._commentRepository.InsertForFeature(feature.id, commentsToInsert)
+        try {
+            await this._eventLogRepository.InsertLog(command.Url, `Start processing Feature:${command.Id} for database.`);
+            let persons = await this.ManagePersons(command);
+            let featureId = await this._featureRepository.GetIdByExternalId(command.Id);
+            let feature = !featureId ? await this.InsertFeature(command) : await this.UpdateFeature(featureId, command);
+            await this._featureRepository.UpdateAssignedPerson(feature.id, feature)
+            await this._commentRepository.DeleteFromFeatureId(feature.id);
+            let commentsToInsert = command.Comments.map(item => item.ToComment())
+            commentsToInsert.forEach(item => {
+                item.user = persons.find(person => person.externalId == item.user.externalId);
+            })
+            if (commentsToInsert.length > 0) {
+                feature.comments = await this._commentRepository.InsertForFeature(feature.id, commentsToInsert)
+            }
+            await this._eventLogRepository.InsertLog(command.Url, `End processing Feature:${command.Id} for database.`);
+            return feature
+        } catch (error) {
+            this._eventLogRepository.InsertErrorLog(command.Url, String(error))
+            throw error
         }
-        return feature
     }
 
     private async InsertFeature(command: SaveFeatureCommand) {

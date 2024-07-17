@@ -5,6 +5,7 @@ import { IProjectRepository } from "src/domain/projects/project.repository";
 import { Person } from "src/domain/person/person";
 import { IPersonRepository } from "src/domain/person/person.repository";
 import { ICommentRepository } from "src/domain/comment/comment.repository";
+import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
 
 @CommandHandler(SaveProjectCommand)
 export class SaveProjectHandler implements ICommandHandler<SaveProjectCommand, Project> {
@@ -12,24 +13,33 @@ export class SaveProjectHandler implements ICommandHandler<SaveProjectCommand, P
     constructor(
         private _projectRepository: IProjectRepository,
         private _personRepository: IPersonRepository,
-        private _commentRepository: ICommentRepository
+        private _commentRepository: ICommentRepository,
+        private _eventLogRepository: IEventLogRepository
 
     ) { }
 
     async execute(command: SaveProjectCommand): Promise<Project> {
-        let personsFromProject = await this.ManagePersons(command)
-        let projectId = await this._projectRepository.GetIdByExternalId(command.Id);
-        let project = !projectId ? await this.InsertProject(command) : await this.UpdateProject(projectId, command);
-        if (command.AssignedTo) project.assignedTo = personsFromProject.find(item => item.externalId == command.AssignedTo.Id);
+        try {
+            await this._eventLogRepository.InsertLog(command.Url, `Start processing Project:${command.Id} for database.`);
 
-        await this._projectRepository.UpdateAssignedPerson(project.id, project)
-        await this._commentRepository.DeleteFromProjectId(project.id);
-        let commentsToInsert = command.Comments.map(item => item.ToComment())
-        commentsToInsert.forEach(item => {
-            item.user = personsFromProject.find(person => person.externalId == item.user.externalId);
-        })
-        project.comments = await this._commentRepository.InsertForProject(projectId, commentsToInsert)
-        return project
+            let personsFromProject = await this.ManagePersons(command)
+            let projectId = await this._projectRepository.GetIdByExternalId(command.Id);
+            let project = !projectId ? await this.InsertProject(command) : await this.UpdateProject(projectId, command);
+            if (command.AssignedTo) project.assignedTo = personsFromProject.find(item => item.externalId == command.AssignedTo.Id);
+
+            await this._projectRepository.UpdateAssignedPerson(project.id, project)
+            await this._commentRepository.DeleteFromProjectId(project.id);
+            let commentsToInsert = command.Comments.map(item => item.ToComment())
+            commentsToInsert.forEach(item => {
+                item.user = personsFromProject.find(person => person.externalId == item.user.externalId);
+            })
+            project.comments = await this._commentRepository.InsertForProject(projectId, commentsToInsert)
+            await this._eventLogRepository.InsertLog(command.Url, `End processing Project:${command.Id} for database.`);
+            return project
+        } catch (error) {
+            this._eventLogRepository.InsertErrorLog(command.Url, String(error))
+            throw error
+        }
     }
 
 

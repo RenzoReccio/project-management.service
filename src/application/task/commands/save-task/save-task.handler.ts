@@ -5,6 +5,7 @@ import { ITaskRepository } from "src/domain/tasks/task.repository";
 import { ICommentRepository } from "src/domain/comment/comment.repository";
 import { IPersonRepository } from "src/domain/person/person.repository";
 import { Person } from "src/domain/person/person";
+import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
 
 @CommandHandler(SaveTaskCommand)
 export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
@@ -12,21 +13,30 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
         private _personRepository: IPersonRepository,
         private _commentRepository: ICommentRepository,
         private _taskRepository: ITaskRepository,
+        private _eventLogRepository: IEventLogRepository,
+        
     ) { }
     async execute(command: SaveTaskCommand): Promise<Task> {
-        let persons = await this.ManagePersons(command);
-        let taskId = await this._taskRepository.GetIdByExternalId(command.Id);
-        let task = !taskId ? await this.InsertUserStory(command) : await this.UpdateUserStory(taskId, command);
-        await this._taskRepository.UpdateAssignedPerson(task.id, task)
-        await this._commentRepository.DeleteFromTaskId(task.id);
-        let commentsToInsert = command.Comments.map(item => item.ToComment())
-        commentsToInsert.forEach(item => {
-            item.user = persons.find(person => person.externalId == item.user.externalId);
-        })
-        if (commentsToInsert.length > 0) {
-            task.comments = await this._commentRepository.InsertForTask(task.id, commentsToInsert)
+        try {
+            await this._eventLogRepository.InsertLog(command.Url, `Start processing task:${command.Id} for database.`);
+            let persons = await this.ManagePersons(command);
+            let taskId = await this._taskRepository.GetIdByExternalId(command.Id);
+            let task = !taskId ? await this.InsertUserStory(command) : await this.UpdateUserStory(taskId, command);
+            await this._taskRepository.UpdateAssignedPerson(task.id, task)
+            await this._commentRepository.DeleteFromTaskId(task.id);
+            let commentsToInsert = command.Comments.map(item => item.ToComment())
+            commentsToInsert.forEach(item => {
+                item.user = persons.find(person => person.externalId == item.user.externalId);
+            })
+            if (commentsToInsert.length > 0) {
+                task.comments = await this._commentRepository.InsertForTask(task.id, commentsToInsert)
+            }
+            await this._eventLogRepository.InsertLog(command.Url, `End processing task:${command.Id} for database.`);   
+            return task
+        } catch (error) {
+            this._eventLogRepository.InsertErrorLog(command.Url, String(error))
+            throw error
         }
-        return task
     }
     async InsertUserStory(command: SaveTaskCommand) {
         let task = new Task({

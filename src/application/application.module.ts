@@ -19,6 +19,10 @@ import { SaveUserStoryHandler } from "./user-story/commands/save-user-story/save
 import { IUserStoryRepository } from "src/domain/user-story/user-story.repository";
 import { UserStoryRepository } from "src/infrastructure/repository/user-story.repository";
 import { SaveTaskHandler } from "./task/commands/save-task/save-task.handler";
+import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
+import { EventLogRepository } from "src/infrastructure/repository/event-log.repository";
+import { MongooseModule } from "@nestjs/mongoose";
+import { EventLog, EventLogSchema } from "src/infrastructure/schema/event-log.schema";
 
 export const CommandHandlers = [
     CreateProjectHandler,
@@ -37,10 +41,13 @@ export const Providers: Provider[] = [
     { provide: IFeatureRepository, useClass: FeatureRepository },
     { provide: IUserStoryRepository, useClass: UserStoryRepository },
     { provide: ITaskRepository, useClass: TaskRepository },
-
+    { provide: IEventLogRepository, useClass: EventLogRepository },
 ]
 @Module({
-    imports: [CqrsModule],
+    imports: [CqrsModule,
+        MongooseModule.forFeature([{ name: EventLog.name, schema: EventLogSchema }])
+
+    ],
     providers: [
         ...Providers,
         ...CommandHandlers,
