@@ -9,7 +9,6 @@ import { EventLog } from '../schema/event-log.schema';
 export class EventLogRepository implements IEventLogRepository {
     constructor(@InjectModel(EventLog.name) private eventLog: Model<EventLog>) { }
     async InsertLog(resourceURL: string, message: string): Promise<boolean> {
-        console.log(resourceURL)
         try {
             var logEvent = new this.eventLog({
                 LogType: "INFO",
