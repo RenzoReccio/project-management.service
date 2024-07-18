@@ -7,6 +7,7 @@ import { UserController } from './controllers/user.controller';
 import { InfraestructureModule } from 'src/infrastructure/infrastructure.module';
 import { TaskController } from './controllers/task/task.controller';
 import { MessageController } from './controllers/message/message.controller';
+import { EventLogController } from './controllers/event-log.controller';
 
 @Module({
     imports: [ApplicationModule, CqrsModule, InfraestructureModule],
@@ -15,7 +16,8 @@ import { MessageController } from './controllers/message/message.controller';
         ProjectController,
         TaskController,
         UserController,
-        MessageController
+        MessageController,
+        EventLogController
     ],
     providers: [],
 })

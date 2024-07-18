@@ -8,6 +8,9 @@ import { EventLog } from '../schema/event-log.schema';
 @Injectable()
 export class EventLogRepository implements IEventLogRepository {
     constructor(@InjectModel(EventLog.name) private eventLog: Model<EventLog>) { }
+    async GetLogs(top: number): Promise<any> {
+        return await this.eventLog.find({}).sort([['CreatedDate', -1]]).limit(top).exec()
+    }
     async InsertLog(resourceURL: string, message: string): Promise<boolean> {
         try {
             var logEvent = new this.eventLog({

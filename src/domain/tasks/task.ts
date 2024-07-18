@@ -1,4 +1,5 @@
 import { Comment } from "../comment/comment";
+import { Person } from "../person/person";
 import { UserStory } from "../user-story/user-story";
 import { User } from "../users/user";
 
@@ -10,7 +11,7 @@ export class Task {
   iterationPath: string;
   state: string;
   reason: string;
-  assignedTo: User;
+  assignedTo: Person;
   title: string;
   remainingWork: number;
   originalEstimate: number;
@@ -30,7 +31,7 @@ export class Task {
       description, tags, userStoryParent, url, comments, pageUrl, externalId }:
       {
         id: number; areaPath: string; teamProject: string; iterationPath: string;
-        state: string; reason: string; assignedTo: User; title: string;
+        state: string; reason: string; assignedTo: Person; title: string;
         remainingWork: number; originalEstimate: number; completedWork: number;
         activity: string; priority: number; description: string; tags: string;
         userStoryParent: UserStory; url: string; comments: Comment[]; pageUrl: string; externalId: number;

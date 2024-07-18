@@ -14,7 +14,7 @@ export class TaskRepository implements ITaskRepository {
         return update != null
     }
     async Get(): Promise<any> {
-        return await TaskEntity.find()
+        return await TaskEntity.find({relations: ["assignedTo", ]})
     }
     async GetIdByExternalId(externalId: number): Promise<number> {
         return (await TaskEntity.findOneBy({ externalId: externalId }))?.id

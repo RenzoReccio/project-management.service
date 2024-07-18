@@ -22,6 +22,8 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             let persons = await this.ManagePersons(command);
             let taskId = await this._taskRepository.GetIdByExternalId(command.Id);
             let task = !taskId ? await this.InsertUserStory(command) : await this.UpdateUserStory(taskId, command);
+            if (command.AssignedTo) task.assignedTo = persons.find(item => item.externalId == command.AssignedTo.Id);
+
             await this._taskRepository.UpdateAssignedPerson(task.id, task)
             await this._commentRepository.DeleteFromTaskId(task.id);
             let commentsToInsert = command.Comments.map(item => item.ToComment())

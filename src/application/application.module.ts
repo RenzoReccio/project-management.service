@@ -23,6 +23,7 @@ import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
 import { EventLogRepository } from "src/infrastructure/repository/event-log.repository";
 import { MongooseModule } from "@nestjs/mongoose";
 import { EventLog, EventLogSchema } from "src/infrastructure/schema/event-log.schema";
+import { GetEventLogHandler } from "./event-log/queries/get-event-logs/get-event-logs.query";
 
 export const CommandHandlers = [
     CreateProjectHandler,
@@ -31,7 +32,11 @@ export const CommandHandlers = [
     SaveUserStoryHandler,
     SaveTaskHandler
 ]
-export const QueryHandlers = [GetProjectsHandler, GetTaskHandler]
+export const QueryHandlers = [
+    GetProjectsHandler, 
+    GetTaskHandler,
+    GetEventLogHandler,
+]
 
 export const Providers: Provider[] = [
     { provide: ITaskRepository, useClass: TaskRepository },
