@@ -1,6 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { Project } from "src/domain/projects/project";
-import { IProjectRepository } from "src/domain/projects/project.repository";
 import { ProjectEntity } from "../entity/project.entity";
 import { IFeatureRepository } from "src/domain/feature/feature.repository";
 import { Feature } from "src/domain/feature/feature";
@@ -65,7 +63,7 @@ export class FeatureRepository implements IFeatureRepository {
         return featureSaved.id > 0
     }
     async UpdateAssignedPerson(id: number, feature: Feature): Promise<boolean> {
-        let projectUpdate = await ProjectEntity.save({
+        let projectUpdate = await FeatureEntity.save({
             id: id,
             assignedTo: ((feature.assignedTo != null) ? { id: feature.assignedTo.id } : null)
         })
