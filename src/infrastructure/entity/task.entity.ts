@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity, OneToMany } from 'typeorm';
 import { UserStoryEntity } from './user-story.entity';
 import { PersonEntity } from './person.entity';
+import { TaskCommentEntity } from './task-comment.entity';
 
 @Entity()
 export class TaskEntity extends BaseEntity {
@@ -57,4 +58,7 @@ export class TaskEntity extends BaseEntity {
 
   @ManyToOne(() => UserStoryEntity, { nullable: true })
   userStoryParent: UserStoryEntity
+
+  @OneToMany(() => TaskCommentEntity, (taskCommnet) => taskCommnet.task)
+  comments: TaskCommentEntity[]
 }

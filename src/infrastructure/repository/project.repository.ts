@@ -5,6 +5,9 @@ import { ProjectEntity } from "../entity/project.entity";
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
+    async Get(): Promise<any> {
+        return await ProjectEntity.find({ relations: ["assignedTo", "comments", "comments.createdBy"] })
+    }
     async UpdateAssignedPerson(id: number, project: Project): Promise<boolean> {
         let projectUpdate = await ProjectEntity.save({
             id: id,

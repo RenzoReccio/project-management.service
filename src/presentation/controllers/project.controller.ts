@@ -3,14 +3,14 @@ import { QueryBus, CommandBus } from '@nestjs/cqrs';
 import { CreateProjectCommand } from 'src/application/projects/commands/create-project/create-project.command';
 import { GetProjectsQuery } from 'src/application/projects/queries/get-projects/get-projects.query';
 
-@Controller()
+@Controller('project')
 export class ProjectController {
   constructor(
     private _queryBus: QueryBus,
     private _commandBus: CommandBus,
   ) {}
 
-  @Get('get-projects')
+  @Get('')
   async getProjects(): Promise<string> {
     const query = new GetProjectsQuery();
 

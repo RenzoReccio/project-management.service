@@ -1,6 +1,5 @@
-import { CommandHandler, IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { ITaskRepository } from "src/domain/tasks/task.repository";
-import { Inject } from "@nestjs/common";
 import { GetTaskQuery } from "./get-task.query";
 
 @QueryHandler(GetTaskQuery)

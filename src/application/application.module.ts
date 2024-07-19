@@ -33,9 +33,10 @@ export const CommandHandlers = [
     SaveTaskHandler
 ]
 export const QueryHandlers = [
-    GetProjectsHandler, 
+    GetProjectsHandler,
     GetTaskHandler,
     GetEventLogHandler,
+    GetProjectsHandler,
 ]
 
 export const Providers: Provider[] = [
