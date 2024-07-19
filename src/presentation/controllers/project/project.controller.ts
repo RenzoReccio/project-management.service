@@ -15,7 +15,7 @@ export class ProjectController {
   async getProjects(): Promise<any> {
     const query = new GetProjectsQuery();
     return new CustomResponse<any>(
-      "Get tasks",
+      "Get Projects",
       await this._queryBus.execute(query),
       null
     )
