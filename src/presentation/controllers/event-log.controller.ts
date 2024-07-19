@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { GetEventLogQuery } from 'src/application/event-log/queries/get-event-logs/get-event-logs.handler';
 
-@Controller('eventlog')
+@Controller('logevent')
 export class EventLogController {
 
     constructor(
