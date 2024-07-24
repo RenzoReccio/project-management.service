@@ -78,7 +78,7 @@ export class MessageController {
                     new AssignedToSaveTaskCommand(item.CreatedBy.DisplayName, item.CreatedBy.Id, item.CreatedBy.UniqueName)
                 )
             }),
-            taskDto.PageUrl
+            taskDto.PageUrl, taskDto.CreatedDate, taskDto.UpdatedDate
         )
         let task = await this._commandBus.execute<SaveTaskCommand, Task>(taskCommand);
         return "Task saved"

@@ -24,17 +24,22 @@ export class Task {
   url: string;
   comments: Comment[];
   pageUrl: string;
+  createdDate: Date;
+  updatedDate: Date;
 
   constructor(
     { id, areaPath, teamProject, iterationPath, state, reason, assignedTo, title,
       remainingWork, originalEstimate, completedWork, activity, priority,
-      description, tags, userStoryParent, url, comments, pageUrl, externalId }:
+      description, tags, userStoryParent, url, comments, pageUrl, externalId,
+      createdDate, updatedDate
+    }:
       {
         id: number; areaPath: string; teamProject: string; iterationPath: string;
         state: string; reason: string; assignedTo: Person; title: string;
         remainingWork: number; originalEstimate: number; completedWork: number;
         activity: string; priority: number; description: string; tags: string;
         userStoryParent: UserStory; url: string; comments: Comment[]; pageUrl: string; externalId: number;
+        createdDate: Date; updatedDate: Date;
       }) {
     this.id = id;
     this.areaPath = areaPath;
@@ -56,5 +61,7 @@ export class Task {
     this.comments = comments;
     this.pageUrl = pageUrl;
     this.externalId = externalId;
+    this.createdDate = createdDate;
+    this.updatedDate = updatedDate;
   }
 }

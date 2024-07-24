@@ -21,6 +21,8 @@ export class MessageTaskDto {
   Url: string
   Comments: CommentMessageDto[]
   PageUrl: string
+  CreatedDate: string
+  UpdatedDate: string
 }
 
 export class AssignedToMessageDto {

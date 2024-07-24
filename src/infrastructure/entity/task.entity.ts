@@ -61,4 +61,10 @@ export class TaskEntity extends BaseEntity {
 
   @OneToMany(() => TaskCommentEntity, (taskCommnet) => taskCommnet.task)
   comments: TaskCommentEntity[]
+
+  @Column({ nullable: true })
+  createdDate: Date;
+
+  @Column({ nullable: true })
+  updatedDate: Date;
 }

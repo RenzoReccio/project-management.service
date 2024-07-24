@@ -14,7 +14,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
         private _commentRepository: ICommentRepository,
         private _taskRepository: ITaskRepository,
         private _eventLogRepository: IEventLogRepository,
-        
+
     ) { }
     async execute(command: SaveTaskCommand): Promise<Task> {
         try {
@@ -33,7 +33,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             if (commentsToInsert.length > 0) {
                 task.comments = await this._commentRepository.InsertForTask(task.id, commentsToInsert)
             }
-            await this._eventLogRepository.InsertLog(command.Url, `End processing task:${command.Id} for database.`);   
+            await this._eventLogRepository.InsertLog(command.Url, `End processing task:${command.Id} for database.`);
             return task
         } catch (error) {
             this._eventLogRepository.InsertErrorLog(command.Url, String(error))
@@ -49,7 +49,9 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             completedWork: command.CompletedWork, activity: command.Activity, priority: command.Priority,
             description: command.Description, tags: command.Tags,
             userStoryParent: null, url: command.Url, comments: [],
-            pageUrl: command.PageUrl, externalId: command.Id
+            pageUrl: command.PageUrl, externalId: command.Id,
+            createdDate: new Date(command.CreatedDate),
+            updatedDate: new Date(command.UpdatedDate)
         })
         task.id = await this._taskRepository.Insert(task, command.UserStoryParentId);
         return task;
@@ -63,7 +65,9 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             completedWork: command.CompletedWork, activity: command.Activity, priority: command.Priority,
             description: command.Description, tags: command.Tags,
             userStoryParent: null, url: command.Url, comments: [],
-            pageUrl: command.PageUrl, externalId: command.Id
+            pageUrl: command.PageUrl, externalId: command.Id,
+            createdDate: new Date(command.CreatedDate),
+            updatedDate: new Date(command.UpdatedDate)
         })
         await this._taskRepository.Update(taskId, task, command.UserStoryParentId);
         return task;

@@ -14,7 +14,7 @@ export class TaskRepository implements ITaskRepository {
         return update != null
     }
     async Get(): Promise<any> {
-        return await TaskEntity.find({relations: ["assignedTo", "comments", "comments.createdBy"]})
+        return await TaskEntity.find({ relations: ["assignedTo", "comments", "comments.createdBy"] })
     }
     async GetIdByExternalId(externalId: number): Promise<number> {
         return (await TaskEntity.findOneBy({ externalId: externalId }))?.id
@@ -38,6 +38,8 @@ export class TaskRepository implements ITaskRepository {
             url: task.url,
             pageUrl: task.pageUrl,
             userStoryParent: { id: userStoryId } as UserStoryEntity,
+            createdDate: task.createdDate,
+            updatedDate: task.updatedDate,
         })
         return taskUpdate.id > 0
     }
@@ -59,6 +61,8 @@ export class TaskRepository implements ITaskRepository {
             url: task.url,
             pageUrl: task.pageUrl,
             userStoryParent: { id: userStoryId } as UserStoryEntity,
+            createdDate: task.createdDate,
+            updatedDate: task.updatedDate,
         })
         return taskInsert.id
     }

@@ -22,6 +22,8 @@ export class SaveTaskCommand {
     Url: string;
     Comments: CommentSaveTaskCommand[];
     PageUrl: string;
+    CreatedDate: string;
+    UpdatedDate: string;
 
     constructor(
         Id: number,
@@ -43,7 +45,9 @@ export class SaveTaskCommand {
         UserStoryParentId: number,
         Url: string,
         Comments: CommentSaveTaskCommand[],
-        PageUrl: string
+        PageUrl: string,
+        CreatedDate: string,
+        UpdatedDate: string
     ) {
         this.Id = Id;
         this.AreaPath = AreaPath;
@@ -65,6 +69,8 @@ export class SaveTaskCommand {
         this.Url = Url;
         this.Comments = Comments;
         this.PageUrl = PageUrl;
+        this.CreatedDate = CreatedDate;
+        this.UpdatedDate = UpdatedDate;
     }
 }
 
