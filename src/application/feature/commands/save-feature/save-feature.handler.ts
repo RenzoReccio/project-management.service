@@ -80,7 +80,7 @@ export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, F
         let savedPersons = await this._personRepository.GetManyByExternalId(persons.map(item => item.externalId));
         let personsToSave: Person[] = [];
         persons.forEach(element => {
-            if (!savedPersons.find(item => item.externalId == element.externalId) && !persons.find(item => item.externalId == element.externalId)) personsToSave.push(element)
+            if (!savedPersons.find(item => item.externalId == element.externalId) && !personsToSave.find(item => item.externalId == element.externalId)) personsToSave.push(element)
         });
         await this._personRepository.InsertMany(personsToSave);
         return await this._personRepository.GetManyByExternalId(persons.map(item => item.externalId));

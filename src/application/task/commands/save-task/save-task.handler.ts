@@ -21,7 +21,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             await this._eventLogRepository.InsertLog(command.Url, `Start processing task:${command.Id} for database.`);
             let persons = await this.ManagePersons(command);
             let taskId = await this._taskRepository.GetIdByExternalId(command.Id);
-            let task = !taskId ? await this.InsertUserStory(command) : await this.UpdateUserStory(taskId, command);
+            let task = !taskId ? await this.InsertTask(command) : await this.UpdateTask(taskId, command);
             if (command.AssignedTo) task.assignedTo = persons.find(item => item.externalId == command.AssignedTo.Id);
 
             await this._taskRepository.UpdateAssignedPerson(task.id, task)
@@ -40,7 +40,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             throw error
         }
     }
-    async InsertUserStory(command: SaveTaskCommand) {
+    async InsertTask(command: SaveTaskCommand) {
         let task = new Task({
             id: undefined, areaPath: command.AreaPath, teamProject: command.TeamProject,
             iterationPath: command.IterationPath, state: command.State,
@@ -56,7 +56,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
         task.id = await this._taskRepository.Insert(task, command.UserStoryParentId);
         return task;
     }
-    async UpdateUserStory(taskId: number, command: SaveTaskCommand) {
+    async UpdateTask(taskId: number, command: SaveTaskCommand) {
         let task = new Task({
             id: taskId, areaPath: command.AreaPath, teamProject: command.TeamProject,
             iterationPath: command.IterationPath, state: command.State,
@@ -76,16 +76,18 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
 
     private async ManagePersons(command: SaveTaskCommand) {
         let persons: Person[] = [];
-        if (command.AssignedTo) persons.push(
-            command.AssignedTo.ToPerson()
-        );
+        if (command.AssignedTo) {
+            persons.push(
+                command.AssignedTo.ToPerson()
+            );
+        }
         command.Comments.forEach(comment => {
             persons.push(comment.CreatedBy.ToPerson());
         })
         let savedPersons = await this._personRepository.GetManyByExternalId(persons.map(item => item.externalId));
         let personsToSave: Person[] = [];
         persons.forEach(element => {
-            if (!savedPersons.find(item => item.externalId == element.externalId) && !persons.find(item => item.externalId == element.externalId)) personsToSave.push(element)
+            if (!savedPersons.find(item => item.externalId == element.externalId) && !personsToSave.find(item => item.externalId == element.externalId)) personsToSave.push(element)
         });
         await this._personRepository.InsertMany(personsToSave);
         return await this._personRepository.GetManyByExternalId(persons.map(item => item.externalId));

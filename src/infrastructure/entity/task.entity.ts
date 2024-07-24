@@ -59,7 +59,7 @@ export class TaskEntity extends BaseEntity {
   @ManyToOne(() => UserStoryEntity, { nullable: true })
   userStoryParent: UserStoryEntity
 
-  @OneToMany(() => TaskCommentEntity, (taskCommnet) => taskCommnet.task)
+  @OneToMany(() => TaskCommentEntity, (taskComment) => taskComment.task)
   comments: TaskCommentEntity[]
 
   @Column({ nullable: true })
