@@ -24,13 +24,15 @@ import { EventLogRepository } from "src/infrastructure/repository/event-log.repo
 import { MongooseModule } from "@nestjs/mongoose";
 import { EventLog, EventLogSchema } from "src/infrastructure/schema/event-log.schema";
 import { GetEventLogHandler } from "./event-log/queries/get-event-logs/get-event-logs.query";
+import { GenerateInvoiceHandler } from "./invoice/command/generate-invoice/generate-invoice.handler";
 
 export const CommandHandlers = [
     CreateProjectHandler,
     SaveProjectHandler,
     SaveFeatureHandler,
     SaveUserStoryHandler,
-    SaveTaskHandler
+    SaveTaskHandler,
+    GenerateInvoiceHandler
 ]
 export const QueryHandlers = [
     GetProjectsHandler,
