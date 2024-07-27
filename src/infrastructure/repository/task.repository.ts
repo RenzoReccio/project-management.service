@@ -6,6 +6,18 @@ import { UserStoryEntity } from "../entity/user-story.entity";
 
 @Injectable()
 export class TaskRepository implements ITaskRepository {
+    async GetClosedTasks(month: number, year: number): Promise<any> {
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+        const records = await TaskEntity.createQueryBuilder('entity')
+            .where('entity.updatedDate >= :startDate', { startDate })
+            .andWhere('entity.updatedDate <= :endDate', { endDate })
+            .andWhere('entity.state = :statusTask', { statusTask: "Closed" })
+            .getMany();
+
+        return records;
+    }
     async UpdateAssignedPerson(id: number, task: Task): Promise<boolean> {
         let update = await TaskEntity.save({
             id: id,

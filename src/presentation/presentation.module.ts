@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ApplicationModule } from 'src/application/application.module';
-import { InvoiceController } from './controllers/invoice.controller';
+import { InvoiceController } from './controllers/invoice/invoice.controller';
 import { ProjectController } from './controllers/project/project.controller';
 import { UserController } from './controllers/user.controller';
 import { InfraestructureModule } from 'src/infrastructure/infrastructure.module';
