@@ -6,5 +6,5 @@ export abstract class ITaskRepository {
     abstract Update(id: number, task: Task, userStoryId: number): Promise<boolean>;
     abstract UpdateAssignedPerson(id: number, task: Task): Promise<boolean>;
     abstract Get(): Promise<any>
-    abstract GetClosedTasks(month: number, year: number): Promise<any>
+    abstract GetClosedTasks(month: number, year: number): Promise<Task[]>
 }

@@ -16,7 +16,12 @@ export class InvoiceController {
     async generateInvoice(@Body() invoiceDto: CreateInvoiceDto): Promise<any> {
         return new CustomResponse<any>(
             `Generated invoice for ${invoiceDto.month}-${invoiceDto.year}`,
-            await this._commandBus.execute(new GenerateInvoiceCommand(invoiceDto.month, invoiceDto.year)),
+            await this._commandBus.execute(new GenerateInvoiceCommand(
+                invoiceDto.month,
+                invoiceDto.year,
+                invoiceDto.projectId,
+                invoiceDto.pricePerHour
+            )),
             null
         )
     }

@@ -6,4 +6,5 @@ export abstract class IProjectRepository {
     abstract Update(id: number, project: Project): Promise<boolean>;
     abstract UpdateAssignedPerson(id: number, project: Project): Promise<boolean>;
     abstract Get(): Promise<any>;
+    abstract GetById(id: number): Promise<any>;
 }

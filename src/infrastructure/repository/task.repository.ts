@@ -6,7 +6,7 @@ import { UserStoryEntity } from "../entity/user-story.entity";
 
 @Injectable()
 export class TaskRepository implements ITaskRepository {
-    async GetClosedTasks(month: number, year: number): Promise<any> {
+    async GetClosedTasks(month: number, year: number): Promise<Task[]> {
         const startDate = new Date(year, month - 1, 1);
         const endDate = new Date(year, month, 0, 23, 59, 59, 999);
 
@@ -16,8 +16,36 @@ export class TaskRepository implements ITaskRepository {
             .andWhere('entity.state = :statusTask', { statusTask: "Closed" })
             .getMany();
 
-        return records;
+        return records.map(item => this.mapTaskEntityToTask(item));
     }
+
+    private mapTaskEntityToTask(taskEntity: TaskEntity) {
+        return new Task({
+            id: taskEntity.id,
+            externalId: taskEntity.externalId,
+            areaPath: taskEntity.areaPath,
+            teamProject: taskEntity.teamProject,
+            iterationPath: taskEntity.iterationPath,
+            state: taskEntity.state,
+            reason: taskEntity.reason,
+            assignedTo: null,
+            title: taskEntity.title,
+            remainingWork: taskEntity.remainingWork,
+            originalEstimate: taskEntity.originalEstimate,
+            completedWork: taskEntity.completedWork,
+            activity: taskEntity.activity,
+            priority: taskEntity.priority,
+            description: taskEntity.description,
+            tags: taskEntity.tags,
+            userStoryParent: null,
+            url: taskEntity.url,
+            comments: [],
+            pageUrl: taskEntity.pageUrl,
+            createdDate: taskEntity.createdDate,
+            updatedDate: taskEntity.updatedDate
+        });
+    }
+
     async UpdateAssignedPerson(id: number, task: Task): Promise<boolean> {
         let update = await TaskEntity.save({
             id: id,
@@ -52,6 +80,7 @@ export class TaskRepository implements ITaskRepository {
             userStoryParent: { id: userStoryId } as UserStoryEntity,
             createdDate: task.createdDate,
             updatedDate: task.updatedDate,
+            tags: task.tags
         })
         return taskUpdate.id > 0
     }
@@ -75,6 +104,7 @@ export class TaskRepository implements ITaskRepository {
             userStoryParent: { id: userStoryId } as UserStoryEntity,
             createdDate: task.createdDate,
             updatedDate: task.updatedDate,
+            tags: task.tags
         })
         return taskInsert.id
     }

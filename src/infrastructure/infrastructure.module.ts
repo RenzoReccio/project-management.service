@@ -10,13 +10,17 @@ import { FeatureRepository } from "./repository/feature.repository";
 import { MongooseModule } from "@nestjs/mongoose";
 import { EventLogRepository } from "./repository/event-log.repository";
 import { EventLog, EventLogSchema } from "./schema/event-log.schema";
+import { InvoiceRepository } from "./repository/invoice.repository";
+import { InvoiceDetailRepository } from "./repository/invoice-detail.repository";
 
 const services = [
-    TaskRepository, 
-    ProjectRepository, 
-    CommentRepository, 
+    TaskRepository,
+    ProjectRepository,
+    CommentRepository,
     FeatureRepository,
     EventLogRepository,
+    InvoiceRepository,
+    InvoiceDetailRepository,
 ]
 @Module({
     imports: [

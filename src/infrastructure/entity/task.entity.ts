@@ -67,4 +67,7 @@ export class TaskEntity extends BaseEntity {
 
   @Column({ nullable: true })
   updatedDate: Date;
+
+  @Column({ nullable: true })
+  tags: string;
 }
