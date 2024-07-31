@@ -33,7 +33,7 @@ export class GenerateInvoiceHandler implements ICommandHandler<GenerateInvoiceCo
     }
 
     private mapTaskToDetailInvoice(task: Task) {
-        return new InvoiceDetail(null, null, task.originalEstimate, task.externalId, task.title, task.updatedDate)
+        return new InvoiceDetail(null, null, task.completedWork, task.externalId, task.title, task.updatedDate)
     }
 
     private mapGenerateInvoiceResponse(project: Project, invoice: Invoice, invoiceDetail: InvoiceDetail) {
