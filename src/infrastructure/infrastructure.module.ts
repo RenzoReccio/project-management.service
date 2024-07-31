@@ -2,16 +2,16 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { join } from "path";
 import { DB_DATABASE, DB_HOST, DB_NAME_MONGO, DB_PASSWORD, DB_PORT, DB_URL_MONGO, DB_USER } from "src/config";
-import { TaskRepository } from "./repository/task.repository";
+import { TaskRepository } from "./repositories/task.repository";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { ProjectRepository } from "./repository/project.repository";
-import { CommentRepository } from "./repository/comment.repository";
-import { FeatureRepository } from "./repository/feature.repository";
+import { ProjectRepository } from "./repositories/project.repository";
+import { CommentRepository } from "./repositories/comment.repository";
+import { FeatureRepository } from "./repositories/feature.repository";
 import { MongooseModule } from "@nestjs/mongoose";
-import { EventLogRepository } from "./repository/event-log.repository";
+import { EventLogRepository } from "./repositories/event-log.repository";
 import { EventLog, EventLogSchema } from "./schema/event-log.schema";
-import { InvoiceRepository } from "./repository/invoice.repository";
-import { InvoiceDetailRepository } from "./repository/invoice-detail.repository";
+import { InvoiceRepository } from "./repositories/invoice.repository";
+import { InvoiceDetailRepository } from "./repositories/invoice-detail.repository";
 
 const services = [
     TaskRepository,
