@@ -5,6 +5,9 @@ import { ProjectEntity } from "../entity/project.entity";
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
+    async GetById(id: number): Promise<Project> {
+        return this.mapProjectEntityToProject(await ProjectEntity.findOneBy({ id: id }))
+    }
     async Get(): Promise<any> {
         return await ProjectEntity.find({ relations: ["assignedTo", "comments", "comments.createdBy"] })
     }
@@ -68,5 +71,33 @@ export class ProjectRepository implements IProjectRepository {
             tags: project.tags,
         })
         return projectUpdate != null
+    }
+
+    mapProjectEntityToProject(projectEntity: ProjectEntity): Project {
+        return new Project({
+            id: projectEntity.id,
+            externalId: projectEntity.externalId,
+            areaPath: projectEntity.areaPath,
+            teamProject: projectEntity.teamProject,
+            iterationPath: projectEntity.iterationPath,
+            state: projectEntity.state,
+            reason: projectEntity.reason,
+            assignedTo: null,
+            createdDate: projectEntity.createdDate,
+            title: projectEntity.title,
+            description: projectEntity.description,
+            priority: projectEntity.priority,
+            valueArea: projectEntity.valueArea,
+            risk: projectEntity.risk,
+            businessValue: projectEntity.businessValue,
+            timeCriticality: projectEntity.timeCriticality,
+            effort: projectEntity.effort,
+            startDate: projectEntity.startDate,
+            targetDate: projectEntity.targetDate,
+            url: projectEntity.url,
+            pageUrl: projectEntity.pageUrl,
+            tags: projectEntity.tags,
+            comments: [],
+        });
     }
 }

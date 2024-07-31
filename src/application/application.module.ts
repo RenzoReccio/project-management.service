@@ -25,6 +25,10 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { EventLog, EventLogSchema } from "src/infrastructure/schema/event-log.schema";
 import { GetEventLogHandler } from "./event-log/queries/get-event-logs/get-event-logs.query";
 import { GenerateInvoiceHandler } from "./invoice/command/generate-invoice/generate-invoice.handler";
+import { IInvoiceRepository } from "src/domain/invoice/invoice.repository";
+import { InvoiceRepository } from "src/infrastructure/repository/invoice.repository";
+import { IInvoiceDetailRepository } from "src/domain/invoice-detail/invoice-detail.repository";
+import { InvoiceDetailRepository } from "src/infrastructure/repository/invoice-detail.repository";
 
 export const CommandHandlers = [
     CreateProjectHandler,
@@ -50,6 +54,8 @@ export const Providers: Provider[] = [
     { provide: IUserStoryRepository, useClass: UserStoryRepository },
     { provide: ITaskRepository, useClass: TaskRepository },
     { provide: IEventLogRepository, useClass: EventLogRepository },
+    { provide: IInvoiceRepository, useClass: InvoiceRepository },
+    { provide: IInvoiceDetailRepository, useClass: InvoiceDetailRepository },
 ]
 @Module({
     imports: [CqrsModule,
