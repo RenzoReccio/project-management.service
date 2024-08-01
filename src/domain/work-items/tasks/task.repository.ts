@@ -5,7 +5,7 @@ export abstract class ITaskRepository {
 
     abstract Get(): Promise<Task[]>
 
-    abstract GetClosedTasks(month: number, year: number): Promise<Task[]>
+    abstract GetClosedTasks(month: number, year: number, projectId: number): Promise<Task[]>
 
     abstract GetIdByExternalId(externalId: number): Promise<number>;
 

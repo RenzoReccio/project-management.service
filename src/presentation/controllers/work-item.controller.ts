@@ -16,6 +16,8 @@ import { PubSubPipe } from "../pipes/pubsub.pipe";
 import { GetWorkItemsQuery } from "src/application/work-items/get-work-items/get-work-items.query";
 import { GetWorkItemsResponse } from "src/application/work-items/get-work-items/get-work-items.response";
 import { CustomResponse } from "../dtos/response.model";
+import { GetUnassignedEpicResponse } from "src/application/work-items/epics/get-unassigned-epic/get-unassigned-epic.response";
+import { GetUnassignedEpicQuery } from "src/application/work-items/epics/get-unassigned-epic/get-unassigned-epic.query";
 
 @Controller("work-item")
 export class WorkItemController {
@@ -32,6 +34,16 @@ export class WorkItemController {
         let result = await this._queryBus.execute(query);
         return new CustomResponse<GetWorkItemsResponse[]>(
             `Get backlog for project: ${id}`,
+            result,
+            null
+        )
+    }
+
+    @Get("epic/unassigned")
+    async getepicUnassigned() {
+        let result = await this._queryBus.execute(new GetUnassignedEpicQuery());
+        return new CustomResponse<GetUnassignedEpicQuery[]>(
+            `Get epics unassigned`,
             result,
             null
         )

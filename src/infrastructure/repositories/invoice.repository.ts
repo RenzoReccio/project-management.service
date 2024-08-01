@@ -7,7 +7,6 @@ import { InvoiceEntity } from "../entity/invoice.entity";
 export class InvoiceRepository implements IInvoiceRepository {
 
     public async Insert(invoice: Invoice): Promise<number> {
-
         let invoiceInsert = await InvoiceEntity.save({
             project: { id: invoice.project.id },
             month: invoice.month,

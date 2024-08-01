@@ -11,17 +11,21 @@ import { TaskMapper } from "../mappers/work-items/task.mapper";
 @Injectable()
 export class TaskRepository implements ITaskRepository {
 
-    async GetClosedTasks(month: number, year: number): Promise<Task[]> {
+    async GetClosedTasks(month: number, year: number, projectId: number): Promise<Task[]> {
 
         const startDate = new Date(year, month - 1, 1);
         const endDate = new Date(year, month, 0, 23, 59, 59, 999);
 
         const records = await TaskEntity.createQueryBuilder('entity')
+            .leftJoinAndSelect('entity.userStory', 'userStory')
+            .leftJoinAndSelect('userStory.feature', 'feature')
+            .leftJoinAndSelect('feature.epic', 'epic')
+            .leftJoinAndSelect('epic.project', 'project')
             .where('entity.updatedDate >= :startDate', { startDate })
             .andWhere('entity.updatedDate <= :endDate', { endDate })
             .andWhere('entity.state = :statusTask', { statusTask: "Closed" })
+            .andWhere('project.id = :projectId', { projectId: projectId })
             .getMany();
-
         return records.map(item => TaskMapper.mapTaskEntityToTask(item));
     }
 

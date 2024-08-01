@@ -6,9 +6,34 @@ import { PersonEntity } from "src/infrastructure/entity/person.entity";
 import { EpicCommentEntity } from "src/infrastructure/entity/epic-comment.entity";
 import { EpicEntity } from "src/infrastructure/entity/epic.entity";
 import { EpicMapper } from "../mappers/work-items/epic.mapper";
+import { In, IsNull } from "typeorm";
 
 @Injectable()
 export class EpicRepository implements IEpicRepository {
+    async GetByProjectId(projectId: number): Promise<Epic[]> {
+        let resultEpic = await EpicEntity.find(
+            {
+                where: { project: { id: projectId } },
+            },
+        );
+        return resultEpic.map(item => EpicMapper.mapEpicEntityToEpic(item));
+    }
+    async GetWithProjectIdNull(): Promise<Epic[]> {
+        let resultEpic = await EpicEntity.find(
+            {
+                where: { project: IsNull() },
+            },
+        )
+
+        return resultEpic.map(item => EpicMapper.mapEpicEntityToEpic(item));
+    }
+
+    async UpdateProjectIdMany(id: number, epicIds: number[]): Promise<boolean> {
+        await EpicEntity.update({ project: { id: id } }, { project: null });
+        let result = await EpicEntity.update({ id: In(epicIds) }, { project: { id: id } });
+        return result.affected > 0
+    }
+
     async GetBackLogByProjectId(projectId: number): Promise<Epic[]> {
         let resultEpic = await EpicEntity.find(
             {

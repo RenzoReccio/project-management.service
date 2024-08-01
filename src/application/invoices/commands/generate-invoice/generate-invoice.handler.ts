@@ -8,6 +8,7 @@ import { Task } from "src/domain/work-items/tasks/task";
 import { ITaskRepository } from "src/domain/work-items/tasks/task.repository";
 import { GenerateInvoiceCommand } from "./generate-invoice.command";
 import { GenerateInvoiceResponse } from "./generate-invoice.response";
+import { IProjectRepository } from "src/domain/projects/project.repository";
 
 @CommandHandler(GenerateInvoiceCommand)
 export class GenerateInvoiceHandler implements ICommandHandler<GenerateInvoiceCommand, GenerateInvoiceResponse[]> {
@@ -15,14 +16,15 @@ export class GenerateInvoiceHandler implements ICommandHandler<GenerateInvoiceCo
     constructor(
         private _taskRepository: ITaskRepository,
         private _epicRepository: IEpicRepository,
-        private _invoiceRepository: IInvoiceRepository
+        private _invoiceRepository: IInvoiceRepository,
+        private _projectRepository: IProjectRepository
     ) { }
 
     async execute(command: GenerateInvoiceCommand): Promise<GenerateInvoiceResponse[]> {
 
-        let project = await this._epicRepository.GetById(command.projectId);
+        let project = await this._projectRepository.GetById(command.projectId);
 
-        let closedTasks = await this._taskRepository.GetClosedTasks(command.month, command.year);
+        let closedTasks = await this._taskRepository.GetClosedTasks(command.month, command.year, command.projectId);
 
         let invoice = new Invoice(
             null,
@@ -35,7 +37,6 @@ export class GenerateInvoiceHandler implements ICommandHandler<GenerateInvoiceCo
         );
 
         invoice.id = await this._invoiceRepository.Insert(invoice);
-
         let detailInvoice = closedTasks.map((item) => this.mapTaskToDetailInvoice(item));
 
         invoice.detailInvoice = await this._invoiceRepository.InsertDetail(

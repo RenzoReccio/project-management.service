@@ -2,6 +2,7 @@ import { Comment } from "../comment";
 import { Epic } from "./epic";
 
 export abstract class IEpicRepository {
+    abstract UpdateProjectIdMany(id: number, epicIds: number[]): Promise<boolean>;
 
     abstract GetById(id: number): Promise<Epic>;
 
@@ -18,4 +19,8 @@ export abstract class IEpicRepository {
     abstract DeleteComment(projectId: number): Promise<number>;
 
     abstract GetBackLogByProjectId(projectId: number): Promise<Epic[]>;
+
+    abstract GetWithProjectIdNull(): Promise<Epic[]>;
+
+    abstract GetByProjectId(projectId: number): Promise<Epic[]>;
 }
