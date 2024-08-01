@@ -3,8 +3,34 @@ import { InvoiceDetail } from "src/domain/invoices/invoice-detail";
 import { IInvoiceRepository } from "src/domain/invoices/invoice.repository";
 import { InvoiceDetailEntity } from "../entity/invoice-detail.entity";
 import { InvoiceEntity } from "../entity/invoice.entity";
+import { InvoiceMapper } from "./mappers/invoice.mapper";
 
 export class InvoiceRepository implements IInvoiceRepository {
+    async GetById(id: number): Promise<Invoice> {
+        let result = await InvoiceEntity.findOne(
+            {
+                where: { id: id },
+                relations: ["project"]
+            },
+        )
+        return InvoiceMapper.mapInvoiceEntityToInvoice(result)
+    }
+    async GetDetailByInvoiceId(invoiceId: number): Promise<InvoiceDetail[]> {
+        let result = await InvoiceDetailEntity.find(
+            {
+                where: { invoice: { id: invoiceId } },
+            },
+        )
+
+        return result.map(InvoiceMapper.mapInvoiceDetailEntityToInvoiceDetail);
+    }
+
+    async GetByProjectId(projectId: number): Promise<Invoice[]> {
+        let result = await InvoiceEntity.find(
+            { where: { project: { id: projectId } } }
+        )
+        return result.map(InvoiceMapper.mapInvoiceEntityToInvoice)
+    }
 
     public async Insert(invoice: Invoice): Promise<number> {
         let invoiceInsert = await InvoiceEntity.save({

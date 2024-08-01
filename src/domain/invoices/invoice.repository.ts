@@ -7,4 +7,9 @@ export abstract class IInvoiceRepository {
 
     abstract InsertDetail(invoiceId: number, invoiceDetail: InvoiceDetail[]): Promise<InvoiceDetail[]>;
 
+    abstract GetById(id: number): Promise<Invoice>;
+
+    abstract GetDetailByInvoiceId(invoiceId: number): Promise<InvoiceDetail[]>;
+
+    abstract GetByProjectId(projectId: number): Promise<Invoice[]>;
 }
