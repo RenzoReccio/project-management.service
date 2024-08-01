@@ -5,10 +5,10 @@ export abstract class ITaskRepository {
 
     abstract Get(): Promise<Task[]>
 
-    abstract GetClosedTasks(month: number, year: number): Promise<Task[]>
+    abstract GetClosedTasks(month: number, year: number, projectId: number): Promise<Task[]>
 
     abstract GetIdByExternalId(externalId: number): Promise<number>;
-    
+
     abstract Insert(task: Task, userStoryId: number): Promise<number>;
 
     abstract InsertComment(taskId: number, comments: Comment[]): Promise<Comment[]>;

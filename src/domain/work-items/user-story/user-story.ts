@@ -1,6 +1,7 @@
 import { User } from "src/domain/users/user";
 import { Comment } from "../comment";
 import { Feature } from "../features/feature";
+import { Task } from "../tasks/task";
 
 export class UserStory {
     id: number;
@@ -26,7 +27,7 @@ export class UserStory {
     comments: Comment[];
     pageUrl: string;
     externalId: number;
-
+    tasks: Task[];
     constructor({
         id,
         externalId,
@@ -51,6 +52,7 @@ export class UserStory {
         url,
         comments,
         pageUrl,
+        tasks,
     }: {
         id: number;
         externalId: number;
@@ -75,6 +77,7 @@ export class UserStory {
         url: string;
         comments: Comment[];
         pageUrl: string;
+        tasks?: Task[]
     }) {
 
         this.id = id;
@@ -100,5 +103,6 @@ export class UserStory {
         this.url = url;
         this.comments = comments;
         this.pageUrl = pageUrl;
+        this.tasks = tasks;
     }
 }

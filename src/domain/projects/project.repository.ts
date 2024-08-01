@@ -6,7 +6,7 @@ export abstract class IProjectRepository {
 
     abstract GetById(projectId: number): Promise<Project>
 
-    abstract Insert(project: Project): Promise<boolean>;
+    abstract Insert(project: Project): Promise<number>;
 
     abstract Update(projectId: number, project: Project): Promise<boolean>;
 

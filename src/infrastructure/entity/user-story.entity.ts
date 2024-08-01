@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PersonEntity } from "./person.entity";
 import { FeatureEntity } from "./feature.entity";
+import { TaskEntity } from "./task.entity";
 
 @Entity("userStory")
 export class UserStoryEntity extends BaseEntity {
@@ -69,4 +70,7 @@ export class UserStoryEntity extends BaseEntity {
 
     @Column({ nullable: true })
     externalId: number;
+
+    @OneToMany(() => TaskEntity, (task) => task.userStory)
+    tasks: TaskEntity[]
 }

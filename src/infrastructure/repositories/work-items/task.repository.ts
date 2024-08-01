@@ -6,22 +6,27 @@ import { PersonEntity } from "src/infrastructure/entity/person.entity";
 import { TaskCommentEntity } from "src/infrastructure/entity/task-comment.entity";
 import { TaskEntity } from "src/infrastructure/entity/task.entity";
 import { UserStoryEntity } from "src/infrastructure/entity/user-story.entity";
+import { TaskMapper } from "../mappers/work-items/task.mapper";
 
 @Injectable()
 export class TaskRepository implements ITaskRepository {
 
-    async GetClosedTasks(month: number, year: number): Promise<Task[]> {
+    async GetClosedTasks(month: number, year: number, projectId: number): Promise<Task[]> {
 
         const startDate = new Date(year, month - 1, 1);
         const endDate = new Date(year, month, 0, 23, 59, 59, 999);
 
         const records = await TaskEntity.createQueryBuilder('entity')
+            .leftJoinAndSelect('entity.userStory', 'userStory')
+            .leftJoinAndSelect('userStory.feature', 'feature')
+            .leftJoinAndSelect('feature.epic', 'epic')
+            .leftJoinAndSelect('epic.project', 'project')
             .where('entity.updatedDate >= :startDate', { startDate })
             .andWhere('entity.updatedDate <= :endDate', { endDate })
             .andWhere('entity.state = :statusTask', { statusTask: "Closed" })
+            .andWhere('project.id = :projectId', { projectId: projectId })
             .getMany();
-
-        return records.map(item => this.mapTaskEntityToTask(item));
+        return records.map(item => TaskMapper.mapTaskEntityToTask(item));
     }
 
     async UpdateAssignedPerson(id: number, task: Task): Promise<boolean> {
@@ -126,32 +131,5 @@ export class TaskRepository implements ITaskRepository {
         const result = await TaskCommentEntity.delete({ task: { id: taskId } })
 
         return result.affected
-    }
-
-    private mapTaskEntityToTask(taskEntity: TaskEntity) {
-        return new Task({
-            id: taskEntity.id,
-            externalId: taskEntity.externalId,
-            areaPath: taskEntity.areaPath,
-            teamProject: taskEntity.teamProject,
-            iterationPath: taskEntity.iterationPath,
-            state: taskEntity.state,
-            reason: taskEntity.reason,
-            assignedTo: null,
-            title: taskEntity.title,
-            remainingWork: taskEntity.remainingWork,
-            originalEstimate: taskEntity.originalEstimate,
-            completedWork: taskEntity.completedWork,
-            activity: taskEntity.activity,
-            priority: taskEntity.priority,
-            description: taskEntity.description,
-            tags: taskEntity.tags,
-            userStory: null,
-            url: taskEntity.url,
-            comments: [],
-            pageUrl: taskEntity.pageUrl,
-            createdDate: taskEntity.createdDate,
-            updatedDate: taskEntity.updatedDate
-        });
     }
 }

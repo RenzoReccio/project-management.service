@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { AssignedToSaveEpicCommand, CommentSaveEpicCommand, SaveEpicCommand } from "src/application/work-items/epics/save-epic/save-epic.command";
 import { AssignedToSaveFeatureCommand, CommentSaveFeatureCommand, SaveFeatureCommand } from "src/application/work-items/features/save-feature/save-feature.command";
@@ -13,6 +13,11 @@ import { FeatureMessageDto } from "../dtos/feature-message.dto";
 import { TaskMessageDto } from "../dtos/task-message.dto";
 import { UserStoryMessageDto } from "../dtos/user-story-message.dto";
 import { PubSubPipe } from "../pipes/pubsub.pipe";
+import { GetWorkItemsQuery } from "src/application/work-items/get-work-items/get-work-items.query";
+import { GetWorkItemsResponse } from "src/application/work-items/get-work-items/get-work-items.response";
+import { CustomResponse } from "../dtos/response.model";
+import { GetUnassignedEpicResponse } from "src/application/work-items/epics/get-unassigned-epic/get-unassigned-epic.response";
+import { GetUnassignedEpicQuery } from "src/application/work-items/epics/get-unassigned-epic/get-unassigned-epic.query";
 
 @Controller("work-item")
 export class WorkItemController {
@@ -21,6 +26,28 @@ export class WorkItemController {
         private _commandBus: CommandBus,
         private _queryBus: QueryBus,
     ) { }
+
+    @Get("project/:id")
+    async getBackLog(@Param('id') id: string) {
+
+        const query = new GetWorkItemsQuery(Number(id));
+        let result = await this._queryBus.execute(query);
+        return new CustomResponse<GetWorkItemsResponse[]>(
+            `Get backlog for project: ${id}`,
+            result,
+            null
+        )
+    }
+
+    @Get("epic/unassigned")
+    async getepicUnassigned() {
+        let result = await this._queryBus.execute(new GetUnassignedEpicQuery());
+        return new CustomResponse<GetUnassignedEpicQuery[]>(
+            `Get epics unassigned`,
+            result,
+            null
+        )
+    }
 
     @Post("task")
     async saveTask(@Body(new PubSubPipe<TaskMessageDto>(TaskMessageDto)) taskMessage: TaskMessageDto) {

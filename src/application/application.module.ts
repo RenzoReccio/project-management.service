@@ -24,17 +24,29 @@ import { SaveEpicHandler } from "./work-items/epics/save-epic/save-epic.handler"
 import { SaveFeatureHandler } from "./work-items/features/save-feature/save-feature.handler";
 import { SaveTaskHandler } from "./work-items/tasks/save-task/save-task.handler";
 import { SaveUserStoryHandler } from "./work-items/user-story/save-user-story/save-user-story.handler";
+import { GetWorkItemsHandler } from "./work-items/get-work-items/get-work-items.handler";
+import { UpdateProjectHandler } from "./projects/commands/update-project/update-project.handler";
+import { CreateProjectHandler } from "./projects/commands/create-project/create-project.handler";
+import { GetProjectsHandler } from "./projects/queries/get-projects/get-projects.handler";
+import { GetUnassignedEpicHandler } from "./work-items/epics/get-unassigned-epic/get-unassigned-epic.handler";
+import { GetProjectByIdHandler } from "./projects/queries/get-project-by-id/get-project-by-id.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
     SaveFeatureHandler,
     SaveUserStoryHandler,
     SaveTaskHandler,
-    GenerateInvoiceHandler
+    GenerateInvoiceHandler,
+    CreateProjectHandler,
+    UpdateProjectHandler
 ]
 
 export const QueryHandlers = [
     GetEventsLogsHandler,
+    GetWorkItemsHandler,
+    GetProjectsHandler,
+    GetUnassignedEpicHandler,
+    GetProjectByIdHandler
 ]
 
 export const Providers: Provider[] = [
@@ -45,7 +57,8 @@ export const Providers: Provider[] = [
     { provide: IInvoiceRepository, useClass: InvoiceRepository },
     { provide: IProjectRepository, useClass: ProjectRepository },
     { provide: IPersonRepository, useClass: PersonRepository },
-    { provide: IUtilsRepository, useClass: UtilsRepository }
+    { provide: IUtilsRepository, useClass: UtilsRepository },
+    { provide: IProjectRepository, useClass: ProjectRepository },
 ]
 
 @Module({

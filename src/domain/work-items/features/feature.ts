@@ -1,6 +1,7 @@
 import { User } from "src/domain/users/user";
 import { Comment } from "../comment";
 import { Epic } from "../epics/epic";
+import { UserStory } from "../user-story/user-story";
 
 export class Feature {
     id: number;
@@ -27,7 +28,7 @@ export class Feature {
     url: string;
     comments: Comment[];
     pageUrl: string;
-
+    userStories: UserStory[];
     constructor({
         id,
         externalId,
@@ -53,6 +54,7 @@ export class Feature {
         url,
         comments,
         pageUrl,
+        userStories
     }: {
         id: number;
         externalId: number;
@@ -78,6 +80,7 @@ export class Feature {
         url: string;
         comments: Comment[];
         pageUrl: string;
+        userStories?: UserStory[];
     }) {
         this.id = id;
         this.externalId = externalId;
@@ -103,5 +106,6 @@ export class Feature {
         this.url = url;
         this.comments = comments;
         this.pageUrl = pageUrl;
+        this.userStories = userStories;
     }
 }

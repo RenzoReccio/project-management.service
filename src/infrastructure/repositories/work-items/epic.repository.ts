@@ -5,17 +5,44 @@ import { IEpicRepository } from "src/domain/work-items/epics/epic.repository";
 import { PersonEntity } from "src/infrastructure/entity/person.entity";
 import { EpicCommentEntity } from "src/infrastructure/entity/epic-comment.entity";
 import { EpicEntity } from "src/infrastructure/entity/epic.entity";
+import { EpicMapper } from "../mappers/work-items/epic.mapper";
+import { In, IsNull } from "typeorm";
 
 @Injectable()
 export class EpicRepository implements IEpicRepository {
+    async GetByProjectId(projectId: number): Promise<Epic[]> {
+        let resultEpic = await EpicEntity.find(
+            {
+                where: { project: { id: projectId } },
+            },
+        );
+        return resultEpic.map(item => EpicMapper.mapEpicEntityToEpic(item));
+    }
+    async GetWithProjectIdNull(): Promise<Epic[]> {
+        let resultEpic = await EpicEntity.find(
+            {
+                where: { project: IsNull() },
+            },
+        )
 
-    public async Get(): Promise<any> {
+        return resultEpic.map(item => EpicMapper.mapEpicEntityToEpic(item));
+    }
 
-        const result = await EpicEntity.find({
-            relations: ["assignedTo", "comments", "comments.createdBy"],
-        });
+    async UpdateProjectIdMany(id: number, epicIds: number[]): Promise<boolean> {
+        await EpicEntity.update({ project: { id: id } }, { project: null });
+        let result = await EpicEntity.update({ id: In(epicIds) }, { project: { id: id } });
+        return result.affected > 0
+    }
 
-        return result;
+    async GetBackLogByProjectId(projectId: number): Promise<Epic[]> {
+        let resultEpic = await EpicEntity.find(
+            {
+                where: { project: { id: projectId } },
+                relations: ["features", "features.userStories", "features.userStories.tasks"]
+            },
+        )
+
+        return resultEpic.map(item => EpicMapper.mapEpicEntityToEpic(item));
     }
 
     public async GetById(epicId: number): Promise<Epic> {
