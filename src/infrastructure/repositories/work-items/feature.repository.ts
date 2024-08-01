@@ -4,16 +4,21 @@ import { Feature } from "src/domain/work-items/features/feature";
 import { IFeatureRepository } from "src/domain/work-items/features/feature.repository";
 import { FeatureCommentEntity } from "src/infrastructure/entity/feature-comment.entity";
 import { FeatureEntity } from "src/infrastructure/entity/feature.entity";
+import { PersonEntity } from "src/infrastructure/entity/person.entity";
 import { ProjectEntity } from "src/infrastructure/entity/project.entity";
 
 @Injectable()
 export class FeatureRepository implements IFeatureRepository {
-    
+
     public async GetIdByExternalId(externalId: number): Promise<number> {
-        return (await FeatureEntity.findOneBy({ externalId: externalId }))?.id;
+
+        const result = await FeatureEntity.findOneBy({ externalId: externalId })
+
+        return result?.id;
     }
 
     public async Insert(feature: Feature, projectId: number): Promise<number> {
+
         let featureSaved = await FeatureEntity.save({
             externalId: feature.externalId,
             areaPath: feature.areaPath,
@@ -40,12 +45,9 @@ export class FeatureRepository implements IFeatureRepository {
 
         return featureSaved.id;
     }
-    
-    public async InsertComment(
-        featureId: number,
-        comments: Comment[],
-    ): Promise<Comment[]> {
-        
+
+    public async InsertComment(featureId: number, comments: Comment[]): Promise<Comment[]> {
+
         let commentsMapped = comments.map((item) => {
             let comment: FeatureCommentEntity = {
                 date: item.date,
@@ -68,11 +70,8 @@ export class FeatureRepository implements IFeatureRepository {
         });
     }
 
-    public async Update(
-        id: number,
-        feature: Feature,
-        projectId: number,
-    ): Promise<boolean> {
+    public async Update(id: number, feature: Feature, projectId: number): Promise<boolean> {
+
         let featureSaved = await FeatureEntity.save({
             id: id,
             externalId: feature.externalId,
@@ -101,10 +100,8 @@ export class FeatureRepository implements IFeatureRepository {
         return featureSaved.id > 0;
     }
 
-    public async UpdateAssignedPerson(
-        id: number,
-        feature: Feature,
-    ): Promise<boolean> {
+    public async UpdateAssignedPerson(id: number, feature: Feature): Promise<boolean> {
+
         let projectUpdate = await FeatureEntity.save({
             id: id,
             assignedTo:
@@ -115,7 +112,9 @@ export class FeatureRepository implements IFeatureRepository {
     }
 
     public async DeleteComment(featureId: number): Promise<number> {
-        return (await FeatureCommentEntity.delete({ feature: { id: featureId } }))
-            .affected;
+
+        const result = await FeatureCommentEntity.delete({ feature: { id: featureId } })
+
+        return result.affected;
     }
 }

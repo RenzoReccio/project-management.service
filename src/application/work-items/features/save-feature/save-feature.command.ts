@@ -1,3 +1,6 @@
+import { Comment } from "src/domain/work-items/comment";
+import { Person } from "src/domain/work-items/person";
+
 export class SaveFeatureCommand {
     Id: number;
     AreaPath: string;

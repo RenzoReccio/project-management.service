@@ -4,7 +4,7 @@ import { IUtilsRepository } from "src/domain/utils/utils.repository";
 import { GetEventsLogsQuery } from "./get-events-logs.query";
 
 @QueryHandler(GetEventsLogsQuery)
-export class GetEventsLogsHandler implements IQueryHandler<GetEventsLogsQuery> {
+export class GetEventsLogsHandler implements IQueryHandler<GetEventsLogsQuery, EventLog[]> {
 
     constructor(
         private _utilsRepository: IUtilsRepository

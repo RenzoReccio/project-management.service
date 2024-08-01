@@ -1,4 +1,5 @@
 import { User } from "src/domain/users/user";
+import { Comment } from "../comment";
 import { Epic } from "../epics/epic";
 
 export class Feature {

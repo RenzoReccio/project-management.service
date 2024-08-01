@@ -1,3 +1,6 @@
+import { Comment } from "src/domain/work-items/comment";
+import { Person } from "src/domain/work-items/person";
+
 export class SaveTaskCommand {
     Id: number;
     AreaPath: string;
@@ -44,7 +47,7 @@ export class SaveTaskCommand {
         Comments: CommentSaveTaskCommand[],
         PageUrl: string,
         CreatedDate: string,
-        UpdatedDate: string
+        UpdatedDate: string,
     ) {
         this.Id = Id;
         this.AreaPath = AreaPath;
@@ -71,7 +74,6 @@ export class SaveTaskCommand {
     }
 }
 
-
 export class AssignedToSaveTaskCommand {
     DisplayName: string;
     Id: string;
@@ -82,8 +84,15 @@ export class AssignedToSaveTaskCommand {
         this.Id = Id;
         this.UniqueName = UniqueName;
     }
+
     ToPerson() {
-        return new Person({ id: undefined, firstName: this.DisplayName, lastName: "", externalId: this.Id, email: this.UniqueName })
+        return new Person({
+            id: undefined,
+            firstName: this.DisplayName,
+            lastName: "",
+            externalId: this.Id,
+            email: this.UniqueName,
+        });
     }
 }
 
@@ -92,13 +101,22 @@ export class CommentSaveTaskCommand {
     Text: string;
     CreatedBy: AssignedToSaveTaskCommand;
 
-    constructor(Date: string, Text: string, CreatedBy: AssignedToSaveTaskCommand) {
+    constructor(
+        Date: string,
+        Text: string,
+        CreatedBy: AssignedToSaveTaskCommand,
+    ) {
         this.Date = Date;
         this.Text = Text;
         this.CreatedBy = CreatedBy;
     }
 
     ToComment() {
-        return new Comment({ id: undefined, date: new Date(this.Date), user: this.CreatedBy.ToPerson(), text: this.Text })
+        return new Comment({
+            id: undefined,
+            date: new Date(this.Date),
+            user: this.CreatedBy.ToPerson(),
+            text: this.Text,
+        });
     }
 }

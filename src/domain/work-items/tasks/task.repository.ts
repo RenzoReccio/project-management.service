@@ -1,3 +1,4 @@
+import { Comment } from "../comment";
 import { Task } from "./task";
 
 export abstract class ITaskRepository {

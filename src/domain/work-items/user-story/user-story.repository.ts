@@ -1,3 +1,4 @@
+import { Comment } from "../comment";
 import { UserStory } from "./user-story";
 
 export abstract class IUserStoryRepository {

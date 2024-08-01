@@ -36,7 +36,7 @@ export class EpicRepository implements IEpicRepository {
 
     public async Insert(epic: Epic): Promise<number> {
 
-        let projectInsert = await ProjectEntity.save({
+        const projectInsert = await ProjectEntity.save({
             externalId: epic.externalId,
             areaPath: epic.areaPath,
             teamProject: epic.teamProject,
@@ -80,12 +80,12 @@ export class EpicRepository implements IEpicRepository {
 
         let result = commentsInsert.map(item => {
 
-            return new Comment(
-                item.id,
-                item.date,
-                null,
-                item.text
-            )
+            return new Comment({
+                id: item.id,
+                date: item.date,
+                user: null,
+                text: item.text
+            })
         })
 
         return Promise.resolve(result)
@@ -131,7 +131,10 @@ export class EpicRepository implements IEpicRepository {
     }
 
     public async DeleteComment(projectId: number): Promise<number> {
-        return (await ProjectCommentEntity.delete({ project: { id: projectId } })).affected
+
+        const result = await ProjectCommentEntity.delete({ project: { id: projectId } })
+
+        return result.affected
     }
 
     private mapProjectEntityToProject(projectEntity: ProjectEntity): Epic {

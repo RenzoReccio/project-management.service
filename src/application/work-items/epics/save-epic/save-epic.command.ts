@@ -1,4 +1,7 @@
-export class SaveProjectCommand {
+import { Comment } from "src/domain/work-items/comment";
+import { Person } from "src/domain/work-items/person";
+
+export class SaveEpicCommand {
     Id: number;
     AreaPath: string;
     TeamProject: string;
@@ -6,7 +9,7 @@ export class SaveProjectCommand {
     WorkItemType: string;
     State: string;
     Reason: string;
-    AssignedTo: AssignedToSaveProjectCommand;
+    AssignedTo: AssignedToSaveEpicCommand;
     CreatedDate: string;
     Title: string;
     Description: string;
@@ -21,7 +24,7 @@ export class SaveProjectCommand {
     Url: string;
     PageUrl: string;
     Tags: string;
-    Comments: CommentSaveProjectCommand[];
+    Comments: CommentSaveEpicCommand[];
 
     constructor(
         Id: number,
@@ -31,7 +34,7 @@ export class SaveProjectCommand {
         WorkItemType: string,
         State: string,
         Reason: string,
-        AssignedTo: AssignedToSaveProjectCommand,
+        AssignedTo: AssignedToSaveEpicCommand,
         CreatedDate: string,
         Title: string,
         Description: string,
@@ -46,7 +49,7 @@ export class SaveProjectCommand {
         Url: string,
         PageUrl: string,
         Tags: string,
-        Comments: CommentSaveProjectCommand[]
+        Comments: CommentSaveEpicCommand[],
     ) {
         this.Id = Id;
         this.AreaPath = AreaPath;
@@ -74,7 +77,7 @@ export class SaveProjectCommand {
     }
 }
 
-export class AssignedToSaveProjectCommand {
+export class AssignedToSaveEpicCommand {
     DisplayName: string;
     Id: string;
     UniqueName: string;
@@ -84,23 +87,39 @@ export class AssignedToSaveProjectCommand {
         this.Id = Id;
         this.UniqueName = UniqueName;
     }
+
     ToPerson() {
-        return new Person({ id: undefined, firstName: this.DisplayName, lastName: "", externalId: this.Id, email: this.UniqueName })
+        return new Person({
+            id: undefined,
+            firstName: this.DisplayName,
+            lastName: "",
+            externalId: this.Id,
+            email: this.UniqueName,
+        });
     }
 }
 
-export class CommentSaveProjectCommand {
+export class CommentSaveEpicCommand {
     Date: string;
     Text: string;
-    CreatedBy: AssignedToSaveProjectCommand;
+    CreatedBy: AssignedToSaveEpicCommand;
 
-    constructor(Date: string, Text: string, CreatedBy: AssignedToSaveProjectCommand) {
+    constructor(
+        Date: string,
+        Text: string,
+        CreatedBy: AssignedToSaveEpicCommand,
+    ) {
         this.Date = Date;
         this.Text = Text;
         this.CreatedBy = CreatedBy;
     }
 
     ToComment() {
-        return new Comment({ id: undefined, date: new Date(this.Date), user: this.CreatedBy.ToPerson(), text: this.Text })
+        return new Comment({
+            id: undefined,
+            date: new Date(this.Date),
+            user: this.CreatedBy.ToPerson(),
+            text: this.Text,
+        });
     }
 }

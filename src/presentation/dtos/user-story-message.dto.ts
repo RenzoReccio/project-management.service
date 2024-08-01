@@ -1,7 +1,7 @@
-import { EpicMessageDto } from "./epic-message.dto"
-import { AssignedToMessageDto, CommentMessageDto } from "./task-message.dto"
+import { FeatureMessageDto } from "./feature-message.dto"
+import { AssignedToMessageDto, CommentMessageDto } from "./utils.dto"
 
-export class FeatureMessageDto {
+export class UserStoryMessageDto {
     Id: number
     AreaPath: string
     TeamProject: string
@@ -10,20 +10,19 @@ export class FeatureMessageDto {
     State: string
     Reason: string
     AssignedTo: AssignedToMessageDto
-    CreatedDate: string
     Title: string
+    BoardColumn: string
+    BoardColumnDone: boolean
     Priority: number
     ValueArea: string
     Risk: string
-    TargetDate: string
-    BusinessValue: number
-    TimeCriticality: number
-    Effort: number
-    StartDate: string
+    KanbanColumn: string
+    KanbanColumnDone: boolean
     Description: string
+    AcceptanceCriteria: string
     Tags: string
+    FeatureParent: FeatureMessageDto
     Url: string
-    ParentEpic: EpicMessageDto
     Comments: CommentMessageDto[]
     PageUrl: string
 }

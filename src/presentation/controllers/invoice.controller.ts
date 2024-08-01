@@ -1,7 +1,8 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { GenerateInvoiceCommand } from "src/application/invoices/commands/generate-invoice/generate-invoice.command";
-import { CustomResponse } from "./refactor/response/response.model";
+import { GenerateInvoiceResponse } from "src/application/invoices/commands/generate-invoice/generate-invoice.response";
+import { CustomResponse } from "../dtos/response.model";
 
 @Controller('invoice')
 export class InvoiceController {
@@ -14,9 +15,9 @@ export class InvoiceController {
     @Post()
     async generateInvoice(@Body() command: GenerateInvoiceCommand): Promise<any> {
 
-        const result = await this._commandBus.execute(command)
+        const result: GenerateInvoiceResponse[] = await this._commandBus.execute(command)
 
-        const response = new CustomResponse<any>(
+        const response = new CustomResponse<GenerateInvoiceResponse[]>(
             `Generated invoice for ${command.month}-${command.year}`,
             result,
             null
@@ -24,5 +25,4 @@ export class InvoiceController {
 
         return response
     }
-
 }

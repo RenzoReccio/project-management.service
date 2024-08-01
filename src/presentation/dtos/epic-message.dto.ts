@@ -1,4 +1,4 @@
-import { AssignedToMessageDto, CommentMessageDto } from "./task-message.dto"
+import { AssignedToMessageDto, CommentMessageDto } from "./utils.dto"
 
 export class EpicMessageDto {
     Id: number

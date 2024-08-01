@@ -1,6 +1,7 @@
 import { UserStoryMessageDto } from "./user-story-message.dto"
+import { AssignedToMessageDto, CommentMessageDto } from "./utils.dto"
 
-export class MessageTaskDto {
+export class TaskMessageDto {
   Id: number
   AreaPath: string
   TeamProject: string
@@ -24,16 +25,3 @@ export class MessageTaskDto {
   CreatedDate: string
   UpdatedDate: string
 }
-
-export class AssignedToMessageDto {
-  DisplayName: string
-  Id: string
-  UniqueName: string
-}
-
-export class CommentMessageDto {
-  Date: string
-  Text: string
-  CreatedBy: AssignedToMessageDto
-}
-
