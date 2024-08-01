@@ -1,13 +1,13 @@
 import { BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, Entity } from "typeorm";
-import { ProjectEntity } from "./project.entity";
+import { EpicEntity } from "./epic.entity";
 
-@Entity()
+@Entity("invoice")
 export class InvoiceEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(() => ProjectEntity)
-    project: ProjectEntity
+    @ManyToOne(() => EpicEntity)
+    project: EpicEntity
 
     @Column()
     month: number;

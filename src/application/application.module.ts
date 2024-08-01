@@ -1,66 +1,57 @@
 import { Module, Provider } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { CreateProjectHandler } from "./projects/commands/create-project/create-project.handler";
-import { GetProjectsHandler } from "./projects/queries/get-projects/get-projects.handler";
-import { ITaskRepository } from "src/domain/tasks/task.repository";
-import { TaskRepository } from "src/infrastructure/repository/task.repository";
-import { GetTaskHandler } from "./task/queries/get-task/get-task.handler";
-import { SaveProjectHandler } from "./projects/commands/save-project/save-project.handler";
-import { IProjectRepository } from "src/domain/projects/project.repository";
-import { ProjectRepository } from "src/infrastructure/repository/project.repository";
-import { ICommentRepository } from "src/domain/comment/comment.repository";
-import { CommentRepository } from "src/infrastructure/repository/comment.repository";
-import { IPersonRepository } from "src/domain/person/person.repository";
-import { PersonRepository } from "src/infrastructure/repository/person.repository";
-import { FeatureRepository } from "src/infrastructure/repository/feature.repository";
-import { IFeatureRepository } from "src/domain/feature/feature.repository";
-import { SaveFeatureHandler } from "./feature/commands/save-feature/save-feature.handler";
-import { SaveUserStoryHandler } from "./user-story/commands/save-user-story/save-user-story.handler";
-import { IUserStoryRepository } from "src/domain/user-story/user-story.repository";
-import { UserStoryRepository } from "src/infrastructure/repository/user-story.repository";
-import { SaveTaskHandler } from "./task/commands/save-task/save-task.handler";
-import { IEventLogRepository } from "src/domain/event-log/event-log.repository";
-import { EventLogRepository } from "src/infrastructure/repository/event-log.repository";
 import { MongooseModule } from "@nestjs/mongoose";
+import { IInvoiceRepository } from "src/domain/invoices/invoice.repository";
+import { IProjectRepository } from "src/domain/projects/project.repository";
+import { IUtilsRepository } from "src/domain/utils/utils.repository";
+import { IEpicRepository } from "src/domain/work-items/epics/epic.repository";
+import { IFeatureRepository } from "src/domain/work-items/features/feature.repository";
+import { IPersonRepository } from "src/domain/work-items/person.repository";
+import { ITaskRepository } from "src/domain/work-items/tasks/task.repository";
+import { IUserStoryRepository } from "src/domain/work-items/user-story/user-story.repository";
+import { InvoiceRepository } from "src/infrastructure/repositories/invoice.repository";
+import { PersonRepository } from "src/infrastructure/repositories/person.repository";
+import { ProjectRepository } from "src/infrastructure/repositories/project.repository";
+import { UtilsRepository } from "src/infrastructure/repositories/utils.repository";
+import { EpicRepository } from "src/infrastructure/repositories/work-items/epic.repository";
+import { FeatureRepository } from "src/infrastructure/repositories/work-items/feature.repository";
+import { TaskRepository } from "src/infrastructure/repositories/work-items/task.repository";
+import { UserStoryRepository } from "src/infrastructure/repositories/work-items/user-story";
 import { EventLog, EventLogSchema } from "src/infrastructure/schema/event-log.schema";
-import { GetEventLogHandler } from "./event-log/queries/get-event-logs/get-event-logs.query";
-import { GenerateInvoiceHandler } from "./invoice/command/generate-invoice/generate-invoice.handler";
-import { IInvoiceRepository } from "src/domain/invoice/invoice.repository";
-import { InvoiceRepository } from "src/infrastructure/repository/invoice.repository";
-import { IInvoiceDetailRepository } from "src/domain/invoice-detail/invoice-detail.repository";
-import { InvoiceDetailRepository } from "src/infrastructure/repository/invoice-detail.repository";
+import { GenerateInvoiceHandler } from "./invoices/commands/generate-invoice/generate-invoice.handler";
+import { GetEventsLogsHandler } from "./utils/get-events-logs/get-events-logs.handler";
+import { SaveEpicHandler } from "./work-items/epics/save-epic/save-epic.handler";
+import { SaveFeatureHandler } from "./work-items/features/save-feature/save-feature.handler";
+import { SaveTaskHandler } from "./work-items/tasks/save-task/save-task.handler";
+import { SaveUserStoryHandler } from "./work-items/user-story/save-user-story/save-user-story.handler";
 
 export const CommandHandlers = [
-    CreateProjectHandler,
-    SaveProjectHandler,
+    SaveEpicHandler,
     SaveFeatureHandler,
     SaveUserStoryHandler,
     SaveTaskHandler,
     GenerateInvoiceHandler
 ]
+
 export const QueryHandlers = [
-    GetProjectsHandler,
-    GetTaskHandler,
-    GetEventLogHandler,
-    GetProjectsHandler,
+    GetEventsLogsHandler,
 ]
 
 export const Providers: Provider[] = [
-    { provide: ITaskRepository, useClass: TaskRepository },
-    { provide: IProjectRepository, useClass: ProjectRepository },
-    { provide: ICommentRepository, useClass: CommentRepository },
-    { provide: IPersonRepository, useClass: PersonRepository },
+    { provide: IEpicRepository, useClass: EpicRepository },
     { provide: IFeatureRepository, useClass: FeatureRepository },
     { provide: IUserStoryRepository, useClass: UserStoryRepository },
     { provide: ITaskRepository, useClass: TaskRepository },
-    { provide: IEventLogRepository, useClass: EventLogRepository },
     { provide: IInvoiceRepository, useClass: InvoiceRepository },
-    { provide: IInvoiceDetailRepository, useClass: InvoiceDetailRepository },
+    { provide: IProjectRepository, useClass: ProjectRepository },
+    { provide: IPersonRepository, useClass: PersonRepository },
+    { provide: IUtilsRepository, useClass: UtilsRepository }
 ]
-@Module({
-    imports: [CqrsModule,
-        MongooseModule.forFeature([{ name: EventLog.name, schema: EventLogSchema }])
 
+@Module({
+    imports: [
+        CqrsModule,
+        MongooseModule.forFeature([{ name: EventLog.name, schema: EventLogSchema }])
     ],
     providers: [
         ...Providers,

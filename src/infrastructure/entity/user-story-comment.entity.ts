@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "t
 import { PersonEntity } from "./person.entity";
 import { UserStoryEntity } from "./user-story.entity";
 
-@Entity()
+@Entity("userStoryComment")
 export class UserStoryCommentEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number

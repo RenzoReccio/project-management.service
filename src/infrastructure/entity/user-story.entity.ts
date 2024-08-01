@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "t
 import { PersonEntity } from "./person.entity";
 import { FeatureEntity } from "./feature.entity";
 
-@Entity()
+@Entity("userStory")
 export class UserStoryEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -59,7 +59,7 @@ export class UserStoryEntity extends BaseEntity {
     tags: string;
 
     @ManyToOne(() => FeatureEntity, { nullable: true })
-    featureParent: FeatureEntity;
+    feature: FeatureEntity;
 
     @Column({ nullable: true })
     url: string;

@@ -5,10 +5,12 @@ import { PresentationModule } from './presentation/presentation.module';
 async function bootstrap() {
 
   const app = await NestFactory.create(PresentationModule);
+
   app.enableCors({origin: process.env.ORIGIN});
   const config = new DocumentBuilder().build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
+  
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

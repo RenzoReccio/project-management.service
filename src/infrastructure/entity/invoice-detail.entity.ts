@@ -1,7 +1,7 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, ManyToOne, Column } from "typeorm";
 import { InvoiceEntity } from "./invoice.entity";
 
-@Entity()
+@Entity("invoiceDetail")
 export class InvoiceDetailEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;

@@ -1,4 +1,5 @@
 export class User {
+
     id: number
     displayName: string
     externalId: string
