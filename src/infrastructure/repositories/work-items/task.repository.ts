@@ -6,6 +6,7 @@ import { PersonEntity } from "src/infrastructure/entity/person.entity";
 import { TaskCommentEntity } from "src/infrastructure/entity/task-comment.entity";
 import { TaskEntity } from "src/infrastructure/entity/task.entity";
 import { UserStoryEntity } from "src/infrastructure/entity/user-story.entity";
+import { TaskMapper } from "../mappers/work-items/task.mapper";
 
 @Injectable()
 export class TaskRepository implements ITaskRepository {
@@ -21,7 +22,7 @@ export class TaskRepository implements ITaskRepository {
             .andWhere('entity.state = :statusTask', { statusTask: "Closed" })
             .getMany();
 
-        return records.map(item => this.mapTaskEntityToTask(item));
+        return records.map(item => TaskMapper.mapTaskEntityToTask(item));
     }
 
     async UpdateAssignedPerson(id: number, task: Task): Promise<boolean> {
@@ -126,32 +127,5 @@ export class TaskRepository implements ITaskRepository {
         const result = await TaskCommentEntity.delete({ task: { id: taskId } })
 
         return result.affected
-    }
-
-    private mapTaskEntityToTask(taskEntity: TaskEntity) {
-        return new Task({
-            id: taskEntity.id,
-            externalId: taskEntity.externalId,
-            areaPath: taskEntity.areaPath,
-            teamProject: taskEntity.teamProject,
-            iterationPath: taskEntity.iterationPath,
-            state: taskEntity.state,
-            reason: taskEntity.reason,
-            assignedTo: null,
-            title: taskEntity.title,
-            remainingWork: taskEntity.remainingWork,
-            originalEstimate: taskEntity.originalEstimate,
-            completedWork: taskEntity.completedWork,
-            activity: taskEntity.activity,
-            priority: taskEntity.priority,
-            description: taskEntity.description,
-            tags: taskEntity.tags,
-            userStory: null,
-            url: taskEntity.url,
-            comments: [],
-            pageUrl: taskEntity.pageUrl,
-            createdDate: taskEntity.createdDate,
-            updatedDate: taskEntity.updatedDate
-        });
     }
 }

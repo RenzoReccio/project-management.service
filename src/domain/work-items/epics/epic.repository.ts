@@ -3,8 +3,6 @@ import { Epic } from "./epic";
 
 export abstract class IEpicRepository {
 
-    abstract Get(): Promise<Epic[]>;
-
     abstract GetById(id: number): Promise<Epic>;
 
     abstract GetIdByExternalId(externalId: number): Promise<number>;
@@ -19,4 +17,5 @@ export abstract class IEpicRepository {
 
     abstract DeleteComment(projectId: number): Promise<number>;
 
+    abstract GetBackLogByProjectId(projectId: number): Promise<Epic[]>;
 }

@@ -5,17 +5,19 @@ import { IEpicRepository } from "src/domain/work-items/epics/epic.repository";
 import { PersonEntity } from "src/infrastructure/entity/person.entity";
 import { EpicCommentEntity } from "src/infrastructure/entity/epic-comment.entity";
 import { EpicEntity } from "src/infrastructure/entity/epic.entity";
+import { EpicMapper } from "../mappers/work-items/epic.mapper";
 
 @Injectable()
 export class EpicRepository implements IEpicRepository {
+    async GetBackLogByProjectId(projectId: number): Promise<Epic[]> {
+        let resultEpic = await EpicEntity.find(
+            {
+                where: { project: { id: projectId } },
+                relations: ["features", "features.userStories", "features.userStories.tasks"]
+            },
+        )
 
-    public async Get(): Promise<any> {
-
-        const result = await EpicEntity.find({
-            relations: ["assignedTo", "comments", "comments.createdBy"],
-        });
-
-        return result;
+        return resultEpic.map(item => EpicMapper.mapEpicEntityToEpic(item));
     }
 
     public async GetById(epicId: number): Promise<Epic> {

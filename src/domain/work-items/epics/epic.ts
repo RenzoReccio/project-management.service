@@ -1,5 +1,7 @@
+import { Project } from "src/domain/projects/project";
 import { Comment } from "../comment";
 import { Person } from "../person";
+import { Feature } from "../features/feature";
 
 export class Epic {
     id: number;
@@ -25,7 +27,8 @@ export class Epic {
     pageUrl: string;
     tags: string;
     comments: Comment[];
-
+    project: Project;
+    features: Feature[];
     constructor({
         id,
         externalId,
@@ -50,6 +53,7 @@ export class Epic {
         pageUrl,
         tags,
         comments,
+        features
     }: {
         id: number;
         externalId: number;
@@ -74,6 +78,7 @@ export class Epic {
         pageUrl: string;
         tags: string;
         comments: Comment[];
+        features?: Feature[];
     }) {
         this.id = id;
         this.externalId = externalId;
@@ -98,5 +103,6 @@ export class Epic {
         this.pageUrl = pageUrl;
         this.tags = tags;
         this.comments = comments;
+        this.features = features;
     }
 }

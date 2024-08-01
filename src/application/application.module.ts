@@ -24,6 +24,7 @@ import { SaveEpicHandler } from "./work-items/epics/save-epic/save-epic.handler"
 import { SaveFeatureHandler } from "./work-items/features/save-feature/save-feature.handler";
 import { SaveTaskHandler } from "./work-items/tasks/save-task/save-task.handler";
 import { SaveUserStoryHandler } from "./work-items/user-story/save-user-story/save-user-story.handler";
+import { GetWorkItemsHandler } from "./work-items/get-work-items/get-work-items.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
@@ -35,6 +36,7 @@ export const CommandHandlers = [
 
 export const QueryHandlers = [
     GetEventsLogsHandler,
+    GetWorkItemsHandler
 ]
 
 export const Providers: Provider[] = [

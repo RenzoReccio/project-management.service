@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany } from 'typeorm';
 import { PersonEntity } from './person.entity';
 import { EpicEntity } from './epic.entity';
+import { UserStoryEntity } from './user-story.entity';
 
 @Entity("feature")
 export class FeatureEntity extends BaseEntity {
@@ -72,4 +73,7 @@ export class FeatureEntity extends BaseEntity {
 
     @Column({ nullable: true })
     pageUrl: string;
+
+    @OneToMany(() => UserStoryEntity, (userStory) => userStory.feature)
+    userStories: UserStoryEntity[]
 }
