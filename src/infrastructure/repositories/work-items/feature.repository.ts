@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { Comment } from "src/domain/work-items/comment";
 import { Feature } from "src/domain/work-items/features/feature";
 import { IFeatureRepository } from "src/domain/work-items/features/feature.repository";
+import { EpicEntity } from "src/infrastructure/entity/epic.entity";
 import { FeatureCommentEntity } from "src/infrastructure/entity/feature-comment.entity";
 import { FeatureEntity } from "src/infrastructure/entity/feature.entity";
 import { PersonEntity } from "src/infrastructure/entity/person.entity";
-import { ProjectEntity } from "src/infrastructure/entity/project.entity";
 
 @Injectable()
 export class FeatureRepository implements IFeatureRepository {
@@ -17,7 +17,7 @@ export class FeatureRepository implements IFeatureRepository {
         return result?.id;
     }
 
-    public async Insert(feature: Feature, projectId: number): Promise<number> {
+    public async Insert(feature: Feature, epicId: number): Promise<number> {
 
         let featureSaved = await FeatureEntity.save({
             externalId: feature.externalId,
@@ -38,7 +38,7 @@ export class FeatureRepository implements IFeatureRepository {
             startDate: feature.startDate,
             description: feature.description,
             tags: feature.tags,
-            parentProject: { id: projectId } as ProjectEntity,
+            epic: { id: epicId } as EpicEntity,
             url: feature.url,
             pageUrl: feature.pageUrl,
         });
@@ -70,7 +70,7 @@ export class FeatureRepository implements IFeatureRepository {
         });
     }
 
-    public async Update(id: number, feature: Feature, projectId: number): Promise<boolean> {
+    public async Update(id: number, feature: Feature, epicId: number): Promise<boolean> {
 
         let featureSaved = await FeatureEntity.save({
             id: id,
@@ -92,7 +92,7 @@ export class FeatureRepository implements IFeatureRepository {
             startDate: feature.startDate,
             description: feature.description,
             tags: feature.tags,
-            parentProject: { id: projectId } as ProjectEntity,
+            epic: { id: epicId } as EpicEntity,
             url: feature.url,
             pageUrl: feature.pageUrl,
         });

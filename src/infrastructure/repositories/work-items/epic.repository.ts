@@ -3,15 +3,15 @@ import { Comment } from "src/domain/work-items/comment";
 import { Epic } from "src/domain/work-items/epics/epic";
 import { IEpicRepository } from "src/domain/work-items/epics/epic.repository";
 import { PersonEntity } from "src/infrastructure/entity/person.entity";
-import { ProjectCommentEntity } from "src/infrastructure/entity/project-comment.entity";
-import { ProjectEntity } from "src/infrastructure/entity/project.entity";
+import { EpicCommentEntity } from "src/infrastructure/entity/epic-comment.entity";
+import { EpicEntity } from "src/infrastructure/entity/epic.entity";
 
 @Injectable()
 export class EpicRepository implements IEpicRepository {
 
     public async Get(): Promise<any> {
 
-        const result = await ProjectEntity.find({
+        const result = await EpicEntity.find({
             relations: ["assignedTo", "comments", "comments.createdBy"],
         });
 
@@ -21,7 +21,7 @@ export class EpicRepository implements IEpicRepository {
     public async GetById(epicId: number): Promise<Epic> {
 
         const result = this.mapProjectEntityToProject(
-            await ProjectEntity.findOneBy({ id: epicId })
+            await EpicEntity.findOneBy({ id: epicId })
         )
 
         return result
@@ -29,14 +29,14 @@ export class EpicRepository implements IEpicRepository {
 
     public async GetIdByExternalId(externalId: number): Promise<number> {
 
-        const result = await ProjectEntity.findOneBy({ externalId: externalId })
+        const result = await EpicEntity.findOneBy({ externalId: externalId })
 
         return result?.id;
     }
 
     public async Insert(epic: Epic): Promise<number> {
 
-        const projectInsert = await ProjectEntity.save({
+        const projectInsert = await EpicEntity.save({
             externalId: epic.externalId,
             areaPath: epic.areaPath,
             teamProject: epic.teamProject,
@@ -62,21 +62,21 @@ export class EpicRepository implements IEpicRepository {
         return projectInsert.id;
     }
 
-    public async InsertComment(projectId: number, comments: Comment[]): Promise<Comment[]> {
+    public async InsertComment(epicId: number, comments: Comment[]): Promise<Comment[]> {
 
         let commentsMapped = comments.map(item => {
 
-            let comment: ProjectCommentEntity = {
+            let comment: EpicCommentEntity = {
                 date: item.date,
                 createdBy: { id: item?.user?.id } as PersonEntity,
                 text: item.text,
-                project: { id: projectId } as ProjectEntity,
-            } as ProjectCommentEntity
+                epic: { id: epicId } as EpicEntity,
+            } as EpicCommentEntity
 
             return comment
         })
 
-        let commentsInsert = await ProjectCommentEntity.save(commentsMapped)
+        let commentsInsert = await EpicCommentEntity.save(commentsMapped)
 
         let result = commentsInsert.map(item => {
 
@@ -93,7 +93,7 @@ export class EpicRepository implements IEpicRepository {
 
     public async Update(id: number, epic: Epic): Promise<boolean> {
 
-        let projectUpdate = await ProjectEntity.save({
+        let projectUpdate = await EpicEntity.save({
             id: id,
             externalId: epic.externalId,
             areaPath: epic.areaPath,
@@ -122,7 +122,7 @@ export class EpicRepository implements IEpicRepository {
 
     public async UpdateAssignedPerson(id: number, epic: Epic): Promise<boolean> {
 
-        let projectUpdate = await ProjectEntity.save({
+        let projectUpdate = await EpicEntity.save({
             id: id,
             assignedTo: epic.assignedTo != null ? { id: epic.assignedTo.id } : null,
         });
@@ -130,38 +130,38 @@ export class EpicRepository implements IEpicRepository {
         return projectUpdate != null;
     }
 
-    public async DeleteComment(projectId: number): Promise<number> {
+    public async DeleteComment(epicId: number): Promise<number> {
 
-        const result = await ProjectCommentEntity.delete({ project: { id: projectId } })
+        const result = await EpicCommentEntity.delete({ epic: { id: epicId } })
 
         return result.affected
     }
 
-    private mapProjectEntityToProject(projectEntity: ProjectEntity): Epic {
+    private mapProjectEntityToProject(epicEntity: EpicEntity): Epic {
 
         const epic = new Epic({
-            id: projectEntity.id,
-            externalId: projectEntity.externalId,
-            areaPath: projectEntity.areaPath,
-            teamProject: projectEntity.teamProject,
-            iterationPath: projectEntity.iterationPath,
-            state: projectEntity.state,
-            reason: projectEntity.reason,
+            id: epicEntity.id,
+            externalId: epicEntity.externalId,
+            areaPath: epicEntity.areaPath,
+            teamProject: epicEntity.teamProject,
+            iterationPath: epicEntity.iterationPath,
+            state: epicEntity.state,
+            reason: epicEntity.reason,
             assignedTo: null,
-            createdDate: projectEntity.createdDate,
-            title: projectEntity.title,
-            description: projectEntity.description,
-            priority: projectEntity.priority,
-            valueArea: projectEntity.valueArea,
-            risk: projectEntity.risk,
-            businessValue: projectEntity.businessValue,
-            timeCriticality: projectEntity.timeCriticality,
-            effort: projectEntity.effort,
-            startDate: projectEntity.startDate,
-            targetDate: projectEntity.targetDate,
-            url: projectEntity.url,
-            pageUrl: projectEntity.pageUrl,
-            tags: projectEntity.tags,
+            createdDate: epicEntity.createdDate,
+            title: epicEntity.title,
+            description: epicEntity.description,
+            priority: epicEntity.priority,
+            valueArea: epicEntity.valueArea,
+            risk: epicEntity.risk,
+            businessValue: epicEntity.businessValue,
+            timeCriticality: epicEntity.timeCriticality,
+            effort: epicEntity.effort,
+            startDate: epicEntity.startDate,
+            targetDate: epicEntity.targetDate,
+            url: epicEntity.url,
+            pageUrl: epicEntity.pageUrl,
+            tags: epicEntity.tags,
             comments: [],
         })
 

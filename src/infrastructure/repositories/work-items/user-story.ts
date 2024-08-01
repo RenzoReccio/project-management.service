@@ -29,7 +29,7 @@ export class UserStoryRepository implements IUserStoryRepository {
             description: userStory.description,
             acceptanceCriteria: userStory.acceptanceCriteria,
             tags: userStory.tags,
-            featureParent: { id: featureId } as FeatureEntity,
+            feature: { id: featureId } as FeatureEntity,
             url: userStory.url,
             pageUrl: userStory.pageUrl,
             externalId: userStory.externalId
@@ -65,7 +65,7 @@ export class UserStoryRepository implements IUserStoryRepository {
             description: userStory.description,
             acceptanceCriteria: userStory.acceptanceCriteria,
             tags: userStory.tags,
-            featureParent: { id: featureId } as FeatureEntity,
+            feature: { id: featureId } as FeatureEntity,
             url: userStory.url,
             pageUrl: userStory.pageUrl,
             externalId: userStory.externalId

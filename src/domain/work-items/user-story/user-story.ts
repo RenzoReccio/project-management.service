@@ -21,7 +21,7 @@ export class UserStory {
     description: string;
     acceptanceCriteria: string;
     tags: string;
-    featureParent: Feature;
+    feature: Feature;
     url: string;
     comments: Comment[];
     pageUrl: string;
@@ -47,7 +47,7 @@ export class UserStory {
         description,
         acceptanceCriteria,
         tags,
-        featureParent,
+        feature,
         url,
         comments,
         pageUrl,
@@ -71,7 +71,7 @@ export class UserStory {
         description: string;
         acceptanceCriteria: string;
         tags: string;
-        featureParent: Feature;
+        feature: Feature;
         url: string;
         comments: Comment[];
         pageUrl: string;
@@ -96,7 +96,7 @@ export class UserStory {
         this.description = description;
         this.acceptanceCriteria = acceptanceCriteria;
         this.tags = tags;
-        this.featureParent = featureParent;
+        this.feature = feature;
         this.url = url;
         this.comments = comments;
         this.pageUrl = pageUrl;

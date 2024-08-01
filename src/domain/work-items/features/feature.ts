@@ -23,7 +23,7 @@ export class Feature {
     startDate: Date;
     description: string;
     tags: string;
-    parentProject: Epic;
+    epic: Epic;
     url: string;
     comments: Comment[];
     pageUrl: string;
@@ -49,7 +49,7 @@ export class Feature {
         startDate,
         description,
         tags,
-        parentProject,
+        epic,
         url,
         comments,
         pageUrl,
@@ -74,7 +74,7 @@ export class Feature {
         startDate: Date;
         description: string;
         tags: string;
-        parentProject: Epic;
+        epic: Epic;
         url: string;
         comments: Comment[];
         pageUrl: string;
@@ -99,7 +99,7 @@ export class Feature {
         this.startDate = startDate;
         this.description = description;
         this.tags = tags;
-        this.parentProject = parentProject;
+        this.epic = epic;
         this.url = url;
         this.comments = comments;
         this.pageUrl = pageUrl;

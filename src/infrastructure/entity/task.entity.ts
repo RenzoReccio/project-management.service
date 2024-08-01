@@ -3,7 +3,7 @@ import { UserStoryEntity } from './user-story.entity';
 import { PersonEntity } from './person.entity';
 import { TaskCommentEntity } from './task-comment.entity';
 
-@Entity()
+@Entity("task")
 export class TaskEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -57,7 +57,7 @@ export class TaskEntity extends BaseEntity {
   pageUrl: string;
 
   @ManyToOne(() => UserStoryEntity, { nullable: true })
-  userStoryParent: UserStoryEntity
+  userStory: UserStoryEntity
 
   @OneToMany(() => TaskCommentEntity, (taskComment) => taskComment.task)
   comments: TaskCommentEntity[]

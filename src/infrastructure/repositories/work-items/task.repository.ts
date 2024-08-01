@@ -66,7 +66,7 @@ export class TaskRepository implements ITaskRepository {
             activity: task.activity,
             url: task.url,
             pageUrl: task.pageUrl,
-            userStoryParent: { id: userStoryId } as UserStoryEntity,
+            userStory: { id: userStoryId } as UserStoryEntity,
             createdDate: task.createdDate,
             updatedDate: task.updatedDate,
             tags: task.tags
@@ -93,7 +93,7 @@ export class TaskRepository implements ITaskRepository {
             activity: task.activity,
             url: task.url,
             pageUrl: task.pageUrl,
-            userStoryParent: { id: userStoryId } as UserStoryEntity,
+            userStory: { id: userStoryId } as UserStoryEntity,
             createdDate: task.createdDate,
             updatedDate: task.updatedDate,
             tags: task.tags
@@ -146,7 +146,7 @@ export class TaskRepository implements ITaskRepository {
             priority: taskEntity.priority,
             description: taskEntity.description,
             tags: taskEntity.tags,
-            userStoryParent: null,
+            userStory: null,
             url: taskEntity.url,
             comments: [],
             pageUrl: taskEntity.pageUrl,

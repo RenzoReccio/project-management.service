@@ -60,7 +60,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             remainingWork: command.RemainingWork, originalEstimate: command.OriginalEstimate,
             completedWork: command.CompletedWork, activity: command.Activity, priority: command.Priority,
             description: command.Description, tags: command.Tags,
-            userStoryParent: null, url: command.Url, comments: [],
+            userStory: null, url: command.Url, comments: [],
             pageUrl: command.PageUrl, externalId: command.Id,
             createdDate: new Date(command.CreatedDate),
             updatedDate: new Date(command.UpdatedDate)
@@ -79,7 +79,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
             remainingWork: command.RemainingWork, originalEstimate: command.OriginalEstimate,
             completedWork: command.CompletedWork, activity: command.Activity, priority: command.Priority,
             description: command.Description, tags: command.Tags,
-            userStoryParent: null, url: command.Url, comments: [],
+            userStory: null, url: command.Url, comments: [],
             pageUrl: command.PageUrl, externalId: command.Id,
             createdDate: new Date(command.CreatedDate),
             updatedDate: new Date(command.UpdatedDate)

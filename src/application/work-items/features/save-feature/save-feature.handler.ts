@@ -61,7 +61,7 @@ export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, F
             targetDate: new Date(command.TargetDate), businessValue: command.BusinessValue,
             timeCriticality: command.TimeCriticality, effort: command.Effort,
             startDate: new Date(command.StartDate), description: command.Description,
-            tags: command.Tags, parentProject: null, url: command.Url, comments: [], pageUrl: command.PageUrl
+            tags: command.Tags, epic: null, url: command.Url, comments: [], pageUrl: command.PageUrl
         })
 
         feature.id = await this._featureRepository.Insert(feature, command.ParentEpicId);
@@ -80,7 +80,7 @@ export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, F
             targetDate: new Date(command.TargetDate), businessValue: command.BusinessValue,
             timeCriticality: command.TimeCriticality, effort: command.Effort,
             startDate: new Date(command.StartDate), description: command.Description,
-            tags: command.Tags, parentProject: null, url: command.Url, comments: [], pageUrl: command.PageUrl
+            tags: command.Tags, epic: null, url: command.Url, comments: [], pageUrl: command.PageUrl
         })
 
         await this._featureRepository.Update(featureId, feature, command.ParentEpicId);

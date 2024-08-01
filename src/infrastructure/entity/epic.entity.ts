@@ -1,9 +1,9 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { PersonEntity } from "./person.entity";
-import { ProjectCommentEntity } from "./project-comment.entity";
+import { EpicCommentEntity } from "./epic-comment.entity";
 
-@Entity()
-export class ProjectEntity extends BaseEntity {
+@Entity("epic")
+export class EpicEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -70,6 +70,6 @@ export class ProjectEntity extends BaseEntity {
     @Column({ nullable: true })
     tags: string;
 
-    @OneToMany(() => ProjectCommentEntity, (projectComment) => projectComment.project)
-    comments: ProjectCommentEntity[]
+    @OneToMany(() => EpicCommentEntity, (projectComment) => projectComment.epic)
+    comments: EpicCommentEntity[]
 }

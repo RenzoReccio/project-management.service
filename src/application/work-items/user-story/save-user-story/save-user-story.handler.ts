@@ -62,7 +62,7 @@ export class SaveUserStoryHandler implements ICommandHandler<SaveUserStoryComman
             priority: command.Priority, valueArea: command.ValueArea, risk: command.Risk,
             kanbanColumn: command.KanbanColumn, kanbanColumnDone: command.KanbanColumnDone,
             description: command.Description, acceptanceCriteria: command.AcceptanceCriteria,
-            tags: command.Tags, featureParent: null, url: command.Url, comments: [], pageUrl: command.PageUrl
+            tags: command.Tags, feature: null, url: command.Url, comments: [], pageUrl: command.PageUrl
         })
 
         userStory.id = await this._userStoryRepository.Insert(userStory, command.FeatureParentId);
@@ -80,7 +80,7 @@ export class SaveUserStoryHandler implements ICommandHandler<SaveUserStoryComman
             priority: command.Priority, valueArea: command.ValueArea, risk: command.Risk,
             kanbanColumn: command.KanbanColumn, kanbanColumnDone: command.KanbanColumnDone,
             description: command.Description, acceptanceCriteria: command.AcceptanceCriteria,
-            tags: command.Tags, featureParent: null, url: command.Url, comments: [], pageUrl: command.PageUrl
+            tags: command.Tags, feature: null, url: command.Url, comments: [], pageUrl: command.PageUrl
         })
 
         await this._userStoryRepository.Update(userStoryId, userStory, command.FeatureParentId);

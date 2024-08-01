@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from 'typeorm';
 import { PersonEntity } from './person.entity';
-import { ProjectEntity } from './project.entity';
+import { EpicEntity } from './epic.entity';
 
-@Entity()
+@Entity("feature")
 export class FeatureEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -64,8 +64,8 @@ export class FeatureEntity extends BaseEntity {
     @Column({ nullable: true })
     tags: string;
 
-    @ManyToOne(() => ProjectEntity, { nullable: true })
-    parentProject: ProjectEntity;
+    @ManyToOne(() => EpicEntity, { nullable: true })
+    epic: EpicEntity;
 
     @Column({ nullable: true })
     url: string;

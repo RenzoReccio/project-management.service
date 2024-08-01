@@ -19,7 +19,7 @@ export class Task {
     priority: number;
     description: string;
     tags: string;
-    userStoryParent: UserStory;
+    userStory: UserStory;
     url: string;
     comments: Comment[];
     pageUrl: string;
@@ -42,7 +42,7 @@ export class Task {
         priority,
         description,
         tags,
-        userStoryParent,
+        userStory,
         url,
         comments,
         pageUrl,
@@ -65,7 +65,7 @@ export class Task {
         priority: number;
         description: string;
         tags: string;
-        userStoryParent: UserStory;
+        userStory: UserStory;
         url: string;
         comments: Comment[];
         pageUrl: string;
@@ -89,7 +89,7 @@ export class Task {
         this.priority = priority;
         this.description = description;
         this.tags = tags;
-        this.userStoryParent = userStoryParent;
+        this.userStory = userStory;
         this.url = url;
         this.comments = comments;
         this.pageUrl = pageUrl;

@@ -13,7 +13,7 @@ export class InvoiceController {
     ) { }
 
     @Post()
-    async generateInvoice(@Body() command: GenerateInvoiceCommand): Promise<any> {
+    async generateInvoice(@Body() command: GenerateInvoiceCommand): Promise<CustomResponse<GenerateInvoiceResponse[]>> {
 
         const result: GenerateInvoiceResponse[] = await this._commandBus.execute(command)
 
