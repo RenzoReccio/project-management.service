@@ -2,6 +2,7 @@ import { User } from "src/domain/users/user";
 import { Comment } from "../comment";
 import { Epic } from "../epics/epic";
 import { UserStory } from "../user-story/user-story";
+import { Person } from "../person";
 
 export class Feature {
     id: number;
@@ -11,7 +12,7 @@ export class Feature {
     iterationPath: string;
     state: string;
     reason: string;
-    assignedTo: User;
+    assignedTo: Person;
     createdDate: Date;
     title: string;
     priority: number;
@@ -63,7 +64,7 @@ export class Feature {
         iterationPath: string;
         state: string;
         reason: string;
-        assignedTo: User;
+        assignedTo: Person;
         createdDate: Date;
         title: string;
         priority: number;

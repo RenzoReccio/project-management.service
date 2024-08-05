@@ -25,6 +25,8 @@ export class SaveUserStoryHandler implements ICommandHandler<SaveUserStoryComman
 
             let userStory = !userStoryId ? await this.InsertUserStory(command) : await this.UpdateUserStory(userStoryId, command);
 
+            if (command.AssignedTo) userStory.assignedTo = persons.find(item => item.externalId == command.AssignedTo.Id);
+
             await this._userStoryRepository.UpdateAssignedPerson(userStory.id, userStory)
 
             await this._userStoryRepository.DeleteComment(userStory.id);
@@ -90,7 +92,7 @@ export class SaveUserStoryHandler implements ICommandHandler<SaveUserStoryComman
 
     private async ManagePersons(command: SaveUserStoryCommand) {
         let persons: Person[] = [];
-        if (command.AssignedTo) persons.push(
+        if (command.AssignedTo && command.AssignedTo.Id != "") persons.push(
             command.AssignedTo.ToPerson()
         );
         

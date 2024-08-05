@@ -94,7 +94,7 @@ export class SaveTaskHandler implements ICommandHandler<SaveTaskCommand, Task> {
 
         let persons: Person[] = [];
 
-        if (command.AssignedTo) {
+        if (command.AssignedTo && command.AssignedTo.Id != "") {
             persons.push(
                 command.AssignedTo.ToPerson()
             );

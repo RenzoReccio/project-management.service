@@ -2,6 +2,7 @@ import { User } from "src/domain/users/user";
 import { Comment } from "../comment";
 import { Feature } from "../features/feature";
 import { Task } from "../tasks/task";
+import { Person } from "../person";
 
 export class UserStory {
     id: number;
@@ -10,7 +11,7 @@ export class UserStory {
     iterationPath: string;
     state: string;
     reason: string;
-    assignedTo: User;
+    assignedTo: Person;
     title: string;
     boardColumn: string;
     boardColumnDone: boolean;
@@ -61,7 +62,7 @@ export class UserStory {
         iterationPath: string;
         state: string;
         reason: string;
-        assignedTo: User;
+        assignedTo: Person;
         title: string;
         boardColumn: string;
         boardColumnDone: boolean;

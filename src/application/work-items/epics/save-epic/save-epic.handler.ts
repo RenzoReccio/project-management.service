@@ -98,7 +98,7 @@ export class SaveEpicHandler implements ICommandHandler<SaveEpicCommand, Epic> {
 
         let persons: Person[] = [];
 
-        if (command.AssignedTo) persons.push(
+        if (command.AssignedTo && command.AssignedTo.Id != "") persons.push(
             command.AssignedTo.ToPerson()
         );
         command.Comments.forEach(comment => {
@@ -106,7 +106,7 @@ export class SaveEpicHandler implements ICommandHandler<SaveEpicCommand, Epic> {
         })
         let savedPersons = await this._personRepository.GetManyByExternalId(persons.map(item => item.externalId));
         let personsToSave: Person[] = [];
-        
+
         persons.forEach(element => {
             if (!savedPersons.find(item => item.externalId == element.externalId) && !personsToSave.find(item => item.externalId == element.externalId)) personsToSave.push(element)
         });

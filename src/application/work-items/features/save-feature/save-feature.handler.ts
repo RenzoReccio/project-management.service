@@ -25,6 +25,8 @@ export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, F
             let featureId = await this._featureRepository.GetIdByExternalId(command.Id);
 
             let feature = !featureId ? await this.InsertFeature(command) : await this.UpdateFeature(featureId, command);
+            
+            if (command.AssignedTo) feature.assignedTo = persons.find(item => item.externalId == command.AssignedTo.Id);
 
             await this._featureRepository.UpdateAssignedPerson(feature.id, feature)
 
@@ -91,7 +93,7 @@ export class SaveFeatureHandler implements ICommandHandler<SaveFeatureCommand, F
     private async ManagePersons(command: SaveFeatureCommand) {
         let persons: Person[] = [];
 
-        if (command.AssignedTo) persons.push(
+        if (command.AssignedTo && command.AssignedTo.Id != "") persons.push(
             command.AssignedTo.ToPerson()
         );
 
