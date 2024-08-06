@@ -32,6 +32,7 @@ import { GetUnassignedEpicHandler } from "./work-items/epics/get-unassigned-epic
 import { GetProjectByIdHandler } from "./projects/queries/get-project-by-id/get-project-by-id.handler";
 import { GetInvoiceByProjectIdHandler } from "./invoices/queries/get-invoices-by-project-id/get-invoices-by-project-id.handler";
 import { GetInvoiceByIdQueryIdHandler } from "./invoices/queries/get-invoice-by-id/get-invoice-by-id.handler";
+import { GetPersonsHandler } from "./persons/queries/get-persons/get-persons.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
@@ -50,7 +51,8 @@ export const QueryHandlers = [
     GetUnassignedEpicHandler,
     GetProjectByIdHandler,
     GetInvoiceByProjectIdHandler,
-    GetInvoiceByIdQueryIdHandler
+    GetInvoiceByIdQueryIdHandler,
+    GetPersonsHandler,
 ]
 
 export const Providers: Provider[] = [

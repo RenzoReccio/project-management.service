@@ -6,6 +6,11 @@ import { PersonEntity } from "../entity/person.entity";
 
 @Injectable()
 export class PersonRepository implements IPersonRepository {
+    async Get(): Promise<Person[]> {
+        const result = await PersonEntity.find({})
+
+        return result
+    }
 
     async InsertMany(persons: Person[]): Promise<number> {
 
@@ -21,11 +26,11 @@ export class PersonRepository implements IPersonRepository {
 
         return personsInsert.length
     }
-    
+
     async GetManyByExternalId(externalId: string[]): Promise<Person[]> {
 
         const result = await PersonEntity.findBy({ externalId: In(externalId) })
-        
+
         return result
     }
 }
