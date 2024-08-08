@@ -15,7 +15,6 @@ export class GenerateInvoiceHandler implements ICommandHandler<GenerateInvoiceCo
 
     constructor(
         private _taskRepository: ITaskRepository,
-        private _epicRepository: IEpicRepository,
         private _invoiceRepository: IInvoiceRepository,
         private _projectRepository: IProjectRepository
     ) { }
@@ -25,7 +24,7 @@ export class GenerateInvoiceHandler implements ICommandHandler<GenerateInvoiceCo
         let project = await this._projectRepository.GetById(command.projectId);
 
         let closedTasks = await this._taskRepository.GetClosedTasks(command.month, command.year, command.projectId);
-
+        if (closedTasks.length == 0) throw Error("No hay tareas cerradas en el periodo seleccionado.")
         let invoice = new Invoice(
             null,
             { id: command.projectId } as Project,

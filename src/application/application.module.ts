@@ -33,6 +33,12 @@ import { GetProjectByIdHandler } from "./projects/queries/get-project-by-id/get-
 import { GetInvoiceByProjectIdHandler } from "./invoices/queries/get-invoices-by-project-id/get-invoices-by-project-id.handler";
 import { GetInvoiceByIdQueryIdHandler } from "./invoices/queries/get-invoice-by-id/get-invoice-by-id.handler";
 import { GetPersonsHandler } from "./persons/queries/get-persons/get-persons.handler";
+import { IEvaluationRepository } from "src/domain/evaluations/evaluation.repository";
+import { EvaluationRepository } from "src/infrastructure/repositories/evaluation.repository";
+import { CloseEvaluationHandler } from "./evaluation/commands/close-evaluation/close.evaluation.handler";
+import { SaveEvaluationHandler } from "./evaluation/commands/save-evaluation/save-evaluation.handler";
+import { GetEvaluationsHandler } from "./evaluation/queries/get-evaluations/get-evaluations.handler";
+import { GetCurrentEvaluationHandler } from "./evaluation/queries/get-current-evaluation/get-current-evaluation.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
@@ -41,7 +47,9 @@ export const CommandHandlers = [
     SaveTaskHandler,
     GenerateInvoiceHandler,
     CreateProjectHandler,
-    UpdateProjectHandler
+    UpdateProjectHandler,
+    CloseEvaluationHandler,
+    SaveEvaluationHandler,
 ]
 
 export const QueryHandlers = [
@@ -53,6 +61,8 @@ export const QueryHandlers = [
     GetInvoiceByProjectIdHandler,
     GetInvoiceByIdQueryIdHandler,
     GetPersonsHandler,
+    GetEvaluationsHandler,
+    GetCurrentEvaluationHandler,
 ]
 
 export const Providers: Provider[] = [
@@ -65,6 +75,7 @@ export const Providers: Provider[] = [
     { provide: IPersonRepository, useClass: PersonRepository },
     { provide: IUtilsRepository, useClass: UtilsRepository },
     { provide: IProjectRepository, useClass: ProjectRepository },
+    { provide: IEvaluationRepository, useClass: EvaluationRepository },
 ]
 
 @Module({
