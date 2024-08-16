@@ -12,8 +12,11 @@ export class CloseEvaluationHandler implements ICommandHandler<CloseEvaluationCo
     async execute(command: SaveEvaluationCommand): Promise<boolean> {
         let currentDate = new Date();
         let evaluationFound = await this._evaluationRepository.GetOneByDateAndPerson(currentDate, command.personId);
+        if (!evaluationFound) {
+            throw Error("Aún no se ha creado una evaluación para el periodo actual.")
+        }
         if (evaluationFound?.isClosed === true) {
-            throw Error("La evaluación ya esta cerrada")
+            throw Error("La evaluación ya esta cerrada.")
         }
         await this._evaluationRepository.CloseEvaluation(evaluationFound.id)
         return true;
