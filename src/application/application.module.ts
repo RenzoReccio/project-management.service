@@ -39,6 +39,7 @@ import { CloseEvaluationHandler } from "./evaluation/commands/close-evaluation/c
 import { SaveEvaluationHandler } from "./evaluation/commands/save-evaluation/save-evaluation.handler";
 import { GetEvaluationsHandler } from "./evaluation/queries/get-evaluations/get-evaluations.handler";
 import { GetCurrentEvaluationHandler } from "./evaluation/queries/get-current-evaluation/get-current-evaluation.handler";
+import { GetProjectStatesHandler } from "./projects/queries/get-project-states/get-project-states.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
@@ -63,6 +64,7 @@ export const QueryHandlers = [
     GetPersonsHandler,
     GetEvaluationsHandler,
     GetCurrentEvaluationHandler,
+    GetProjectStatesHandler
 ]
 
 export const Providers: Provider[] = [

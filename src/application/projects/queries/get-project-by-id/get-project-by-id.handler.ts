@@ -17,7 +17,16 @@ export class GetProjectByIdHandler implements ICommandHandler<GetProjectByIdQuer
         let project = await this._projectRepository.GetById(query.id);
         let epics = await this._epicRepository.GetByProjectId(query.id);
         let resultEpics = epics.map(this.mapEpicToResultEpic)
-        let resultProject = new GetProjectByIdResponse(project.id, project.title, project.description, resultEpics);
+        let resultProject = new GetProjectByIdResponse(
+            project.id,
+            project.title,
+            project.description,
+            resultEpics,
+            project.pricePerHour,
+            project.assigned?.id,
+            project.createdDate,
+            project.state?.id,
+        );
         return resultProject
     }
 
