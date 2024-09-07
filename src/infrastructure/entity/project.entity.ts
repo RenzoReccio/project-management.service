@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ProjectStateEntity } from "./project-state.entity";
+import { PersonEntity } from "./person.entity";
 
 @Entity("project")
 export class ProjectEntity extends BaseEntity {
@@ -10,4 +12,16 @@ export class ProjectEntity extends BaseEntity {
 
     @Column({ nullable: true })
     description: string;
+
+    @Column({ nullable: false, default: 1 })
+    pricePerHour: number;
+
+    @CreateDateColumn()
+    createdDate: Date;
+
+    @ManyToOne(() => ProjectStateEntity, { nullable: true })
+    state: ProjectStateEntity;
+
+    @ManyToOne(() => PersonEntity, { nullable: true })
+    assigned: PersonEntity;
 }

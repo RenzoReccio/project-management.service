@@ -9,6 +9,8 @@ import { GetProjectsQuery } from "src/application/projects/queries/get-projects/
 import { Project } from "src/domain/projects/project";
 import { GetProjectByIdQuery } from "src/application/projects/queries/get-project-by-id/get-project-by-id.query";
 import { GetProjectByIdResponse } from "src/application/projects/queries/get-project-by-id/get-project-by-id.response";
+import { GetProjectStatesQuery } from "src/application/projects/queries/get-project-states/get-project-states.query";
+import { ProjectState } from "src/domain/projects/project-state";
 
 @Controller('project')
 export class ProjectController {
@@ -20,7 +22,13 @@ export class ProjectController {
 
     @Post()
     async create(@Body() projectDto: CreateProjectDto) {
-        let command = new CreateProjectCommand(projectDto.title, projectDto.description, projectDto.epicIds);
+        let command = new CreateProjectCommand(
+            projectDto.title,
+            projectDto.description,
+            projectDto.pricePerHour,
+            projectDto.epicIds,
+            projectDto.assignedId
+        );
 
         const result = await this._commandBus.execute(command)
 
@@ -35,7 +43,15 @@ export class ProjectController {
 
     @Put(":id")
     async update(@Body() projectDto: UpdateProjectDto, @Param('id') id: string) {
-        let command = new UpdateProjectCommand(Number(id), projectDto.title, projectDto.description, projectDto.epicIds);
+        let command = new UpdateProjectCommand(
+            Number(id),
+            projectDto.title,
+            projectDto.description,
+            projectDto.epicIds,
+            projectDto.pricePerHour,
+            projectDto.assignedId,
+            projectDto.stateId
+        );
         const result = await this._commandBus.execute(command)
 
         const response = new CustomResponse<number>(
@@ -60,6 +76,19 @@ export class ProjectController {
         return response
     }
 
+    @Get("states")
+    async getStates() {
+        const result = await this._queryBus.execute<GetProjectStatesQuery, ProjectState[]>(new GetProjectStatesQuery())
+
+        const response = new CustomResponse<ProjectState[]>(
+            `Projects state found ${result.length}`,
+            result,
+            null
+        )
+
+        return response
+    }
+
     @Get(":id")
     async getById(@Param('id') id: string) {
         let query = new GetProjectByIdQuery(Number(id));
@@ -73,4 +102,5 @@ export class ProjectController {
 
         return response
     }
+
 }

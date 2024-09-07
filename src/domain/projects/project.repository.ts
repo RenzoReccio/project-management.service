@@ -1,4 +1,5 @@
 import { Project } from "./project";
+import { ProjectState } from "./project-state";
 
 export abstract class IProjectRepository {
 
@@ -11,5 +12,7 @@ export abstract class IProjectRepository {
     abstract Update(projectId: number, project: Project): Promise<boolean>;
 
     abstract Delete(projectId: number): Promise<boolean>;
+
+    abstract GetProjectStates(): Promise<ProjectState[]>;
 
 }
