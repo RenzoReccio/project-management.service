@@ -12,4 +12,6 @@ export abstract class IInvoiceRepository {
     abstract GetDetailByInvoiceId(invoiceId: number): Promise<InvoiceDetail[]>;
 
     abstract GetByProjectId(projectId: number): Promise<Invoice[]>;
+
+    abstract Get(): Promise<Invoice[]>;
 }

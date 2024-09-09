@@ -40,6 +40,7 @@ export class GetInvoiceByIdQueryIdHandler implements ICommandHandler<GetInvoiceB
             invoiceDetail.dedicatedHours * invoice.pricePerHour,
             invoiceDetail.taskDescription,
             this.formatDate(invoiceDetail.date),
+            invoiceDetail.externalId
         );
 
         return invoiceResponse
