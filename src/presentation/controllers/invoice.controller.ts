@@ -8,6 +8,9 @@ import { GetInvoiceByProjectIdQuery } from "src/application/invoices/queries/get
 import { Invoice } from "src/domain/invoices/invoice";
 import { GetInvoiceByIdResponse } from "src/application/invoices/queries/get-invoice-by-id/get-invoice-by-id.response";
 import { GetInvoiceByIdQuery } from "src/application/invoices/queries/get-invoice-by-id/get-invoice-by-id.query";
+import { GetInvoicesQuery } from "src/application/invoices/queries/get-invoices/get-invoices.query";
+import { GetInvoicesResponse } from "src/application/invoices/queries/get-invoices/get-invoices.response";
+import { GetInvoiceByProjectIdResponse } from "src/application/invoices/queries/get-invoices-by-project-id/get-invoices-by-project-id.response";
 
 @Controller('invoice')
 export class InvoiceController {
@@ -37,11 +40,11 @@ export class InvoiceController {
     }
 
     @Get("project/:id")
-    async getByProjectId(@Param('id') id: string): Promise<CustomResponse<Invoice[]>> {
+    async getByProjectId(@Param('id') id: string): Promise<CustomResponse<GetInvoiceByProjectIdResponse[]>> {
         const query = new GetInvoiceByProjectIdQuery(Number(id))
-        const result: Invoice[] = await this._queryBus.execute(query)
+        const result: GetInvoiceByProjectIdResponse[] = await this._queryBus.execute(query)
 
-        const response = new CustomResponse<Invoice[]>(
+        const response = new CustomResponse<GetInvoiceByProjectIdResponse[]>(
             `Invoices found ${result.length}`,
             result,
             null
@@ -57,6 +60,20 @@ export class InvoiceController {
 
         const response = new CustomResponse<GetInvoiceByIdResponse[]>(
             `Invoices detail found ${result.length}`,
+            result,
+            null
+        )
+
+        return response
+    }
+
+    @Get()
+    async get(): Promise<CustomResponse<GetInvoicesResponse[]>> {
+        const query = new GetInvoicesQuery()
+        const result: GetInvoicesResponse[] = await this._queryBus.execute(query)
+
+        const response = new CustomResponse<GetInvoicesResponse[]>(
+            `Invoices found ${result.length}`,
             result,
             null
         )

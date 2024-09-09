@@ -1,5 +1,5 @@
 export class GetInvoiceByIdResponse {
-    
+
     project: string;
     month: number;
     year: number;
@@ -8,6 +8,7 @@ export class GetInvoiceByIdResponse {
     finalPrice: number;
     task: string;
     date: string;
+    externalId: number;
 
     constructor(
         project: string,
@@ -17,7 +18,8 @@ export class GetInvoiceByIdResponse {
         pricePerHour: number,
         finalPrice: number,
         task: string,
-        date: string
+        date: string,
+        externalId: number
     ) {
         this.project = project
         this.month = month
@@ -27,5 +29,6 @@ export class GetInvoiceByIdResponse {
         this.finalPrice = finalPrice
         this.task = task
         this.date = date
+        this.externalId = externalId
     }
 }

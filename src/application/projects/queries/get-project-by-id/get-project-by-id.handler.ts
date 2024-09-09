@@ -22,7 +22,7 @@ export class GetProjectByIdHandler implements ICommandHandler<GetProjectByIdQuer
             project.title,
             project.description,
             resultEpics,
-            project.pricePerHour,
+            Number(project.pricePerHour ?? 0),
             project.assigned?.id,
             project.createdDate,
             project.state?.id,

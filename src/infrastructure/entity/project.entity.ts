@@ -13,7 +13,7 @@ export class ProjectEntity extends BaseEntity {
     @Column({ nullable: true })
     description: string;
 
-    @Column({ nullable: false, default: 1 })
+    @Column('decimal', { nullable: false, default: 1 })
     pricePerHour: number;
 
     @CreateDateColumn()

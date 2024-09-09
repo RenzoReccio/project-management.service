@@ -4,6 +4,7 @@ import { IInvoiceRepository } from "src/domain/invoices/invoice.repository";
 import { InvoiceDetailEntity } from "../entity/invoice-detail.entity";
 import { InvoiceEntity } from "../entity/invoice.entity";
 import { InvoiceMapper } from "./mappers/invoice.mapper";
+import { InvoiceDetailMapper } from "./mappers/invoiceDetail.mapper";
 
 export class InvoiceRepository implements IInvoiceRepository {
     async GetById(id: number): Promise<Invoice> {
@@ -15,6 +16,16 @@ export class InvoiceRepository implements IInvoiceRepository {
         )
         return InvoiceMapper.mapInvoiceEntityToInvoice(result)
     }
+    async Get(): Promise<Invoice[]> {
+        let result = await InvoiceEntity.find(
+            {
+                relations: ["project", "detailInvoice"],
+                order: { id: 'DESC' }
+            },
+        )
+        return result.map(InvoiceMapper.mapInvoiceEntityToInvoice)
+    }
+
     async GetDetailByInvoiceId(invoiceId: number): Promise<InvoiceDetail[]> {
         let result = await InvoiceDetailEntity.find(
             {
@@ -22,12 +33,16 @@ export class InvoiceRepository implements IInvoiceRepository {
             },
         )
 
-        return result.map(InvoiceMapper.mapInvoiceDetailEntityToInvoiceDetail);
+        return result.map(InvoiceDetailMapper.mapInvoiceDetailEntityToInvoiceDetail);
     }
 
     async GetByProjectId(projectId: number): Promise<Invoice[]> {
         let result = await InvoiceEntity.find(
-            { where: { project: { id: projectId } } }
+            {
+                relations: ["project", "detailInvoice"],
+                where: { project: { id: projectId } },
+                order: { id: 'DESC' }
+            }
         )
         return result.map(InvoiceMapper.mapInvoiceEntityToInvoice)
     }
