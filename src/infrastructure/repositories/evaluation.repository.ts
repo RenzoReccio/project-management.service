@@ -1,7 +1,6 @@
 import { Evaluation } from "src/domain/evaluations/evaluation";
 import { IEvaluationRepository } from "src/domain/evaluations/evaluation.repository";
 import { EvaluationEntity } from "../entity/evaluation.entity";
-import { PersonEntity } from "../entity/person.entity";
 import { EvaluationMapper } from "./mappers/evaluation.mapper";
 
 export class EvaluationRepository implements IEvaluationRepository {
@@ -21,7 +20,9 @@ export class EvaluationRepository implements IEvaluationRepository {
             person: { id: evaluation.person.id },
             skillsToImprove: evaluation.skillsToImprove,
             skillsReached: evaluation.skillsReached,
-            isClosed: evaluation.isClosed
+            isClosed: evaluation.isClosed,
+            finalScore: evaluation.finalScore,
+            quantityScore: evaluation.quantityScore
         })
         return inserted.id;
     }
@@ -35,7 +36,9 @@ export class EvaluationRepository implements IEvaluationRepository {
             person: { id: evaluation.person.id },
             skillsToImprove: evaluation.skillsToImprove,
             skillsReached: evaluation.skillsReached,
-            isClosed: evaluation.isClosed
+            isClosed: evaluation.isClosed,
+            finalScore: evaluation.finalScore,
+            quantityScore: evaluation.quantityScore
         })
         return inserted.id > 0;
     }
@@ -54,7 +57,7 @@ export class EvaluationRepository implements IEvaluationRepository {
     }
     async GetByPerson(personId: number): Promise<Evaluation[]> {
         let result = await EvaluationEntity.find(
-            { where: { person: { id: personId } } }
+            { where: { person: { id: personId } }, order: { id: "DESC" } },
         )
         return result.map(EvaluationMapper.mapEvaluationEntityToEvaluation);
     }

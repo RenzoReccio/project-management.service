@@ -19,4 +19,8 @@ export abstract class ITaskRepository {
 
     abstract DeleteComment(taskId: number): Promise<number>;
 
+    abstract GetNumberClosedTasks(month: number, year: number): Promise<number>
+
+    abstract GetNumberClosedTaskForPersonId(month: number, year: number, personId: number): Promise<number>
+
 }

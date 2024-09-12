@@ -10,6 +10,24 @@ import { TaskMapper } from "../mappers/work-items/task.mapper";
 
 @Injectable()
 export class TaskRepository implements ITaskRepository {
+    async GetNumberClosedTasks(month: number, year: number): Promise<number> {
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+        return await TaskEntity.createQueryBuilder('entity')
+        .where('entity.updatedDate >= :startDate', { startDate })
+        .andWhere('entity.updatedDate <= :endDate', { endDate })
+        .getCount();
+    }
+    async GetNumberClosedTaskForPersonId(month: number, year: number, personId: number): Promise<number> {
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+        return await TaskEntity.createQueryBuilder('entity')
+        .leftJoinAndSelect('entity.assignedTo', 'person')
+        .where('entity.updatedDate >= :startDate', { startDate })
+        .andWhere('entity.updatedDate <= :endDate', { endDate })
+        .andWhere('person.id = :personId', { personId: personId })
+        .getCount();
+    }
 
     async GetClosedTasks(month: number, year: number, projectId: number): Promise<Task[]> {
 

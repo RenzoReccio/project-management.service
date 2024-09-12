@@ -10,6 +10,8 @@ export class Evaluation {
     skillsToImprove: string;
     skillsReached: string;
     isClosed: boolean;
+    quantityScore: number;
+    finalScore: number;
     constructor(
         id: number,
         date: Date,
@@ -17,7 +19,8 @@ export class Evaluation {
         person: Person,
         skillsToImprove: string,
         skillsReached: string,
-        isClosed: boolean
+        isClosed: boolean,
+        quantityScore: number,
     ) {
         this.id = id
         this.date = date
@@ -26,5 +29,7 @@ export class Evaluation {
         this.skillsToImprove = skillsToImprove
         this.skillsReached = skillsReached
         this.isClosed = isClosed
+        this.quantityScore = quantityScore
+        this.finalScore = ((this.quantityScore + this.score) / 2)
     }
 }

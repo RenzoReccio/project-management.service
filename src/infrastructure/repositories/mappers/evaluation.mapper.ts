@@ -10,10 +10,12 @@ export class EvaluationMapper {
             null,
             entity.skillsToImprove,
             entity.skillsReached,
-            entity.isClosed
+            entity.isClosed,
+            entity.quantityScore
         );
         model.createdDate = entity.createdDate;
         model.updatedDate = entity.updatedDate;
+        model.finalScore = Number(entity.finalScore);
         return model;
     }
 

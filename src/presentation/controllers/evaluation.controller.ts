@@ -59,7 +59,6 @@ export class EvaluationController {
             result,
             null
         )
-
         return response
     }
 
