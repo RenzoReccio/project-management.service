@@ -2,7 +2,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGenerat
 import { PersonEntity } from "./person.entity";
 
 @Entity("evaluation")
-export class EvaluationEntity extends BaseEntity{
+export class EvaluationEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -30,4 +30,9 @@ export class EvaluationEntity extends BaseEntity{
     @Column()
     isClosed: boolean;
 
+    @Column({ default: 0 })
+    quantityScore: number;
+
+    @Column({ type: "decimal", default: 0 })
+    finalScore: number;
 }
