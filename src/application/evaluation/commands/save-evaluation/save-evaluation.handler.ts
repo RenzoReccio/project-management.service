@@ -50,7 +50,6 @@ export class SaveEvaluationHandler implements ICommandHandler<SaveEvaluationComm
             false,
             quantityScore
         )
-        console.log(evaluation)
         await this._evaluationRepository.Update(evaluation);
     }
     async insertEvaluation(command: SaveEvaluationCommand, currentDate: Date, quantityScore: number) {
