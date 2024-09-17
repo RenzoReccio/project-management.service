@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { GetEventsLogsQuery } from "src/application/utils/get-events-logs/get-events-logs.query";
+import { GetEventsLogsQuery } from "src/application/utils/queries/get-events-logs/get-events-logs.query";
 import { EventLog } from "src/domain/utils/event-log";
 import { CustomResponse } from "../dtos/response.model";
 

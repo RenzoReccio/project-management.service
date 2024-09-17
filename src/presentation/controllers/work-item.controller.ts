@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
-import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { CommandBus, EventBus, QueryBus } from "@nestjs/cqrs";
 import { AssignedToSaveEpicCommand, CommentSaveEpicCommand, SaveEpicCommand } from "src/application/work-items/epics/save-epic/save-epic.command";
 import { AssignedToSaveFeatureCommand, CommentSaveFeatureCommand, SaveFeatureCommand } from "src/application/work-items/features/save-feature/save-feature.command";
 import { AssignedToSaveTaskCommand, CommentSaveTaskCommand, SaveTaskCommand } from "src/application/work-items/tasks/save-task/save-task.command";
@@ -18,6 +18,7 @@ import { GetWorkItemsResponse } from "src/application/work-items/get-work-items/
 import { CustomResponse } from "../dtos/response.model";
 import { GetUnassignedEpicResponse } from "src/application/work-items/epics/get-unassigned-epic/get-unassigned-epic.response";
 import { GetUnassignedEpicQuery } from "src/application/work-items/epics/get-unassigned-epic/get-unassigned-epic.query";
+import { UpdateOpenAIStoreEvent } from "src/application/utils/events/update-openai-store/update-openai-store.event";
 
 @Controller("work-item")
 export class WorkItemController {
@@ -25,6 +26,8 @@ export class WorkItemController {
     constructor(
         private _commandBus: CommandBus,
         private _queryBus: QueryBus,
+        private _eventBus: EventBus,
+
     ) { }
 
     @Get("project/:id")
@@ -60,6 +63,7 @@ export class WorkItemController {
 
         const task = await this.executeSaveTask(taskMessage, userStory.id)
 
+        this._eventBus.publish(new UpdateOpenAIStoreEvent())
         return "Task saved";
     }
 
@@ -72,6 +76,8 @@ export class WorkItemController {
 
         const userStory = await this.executeSaveUserStory(userStoryMessage, feature.id)
 
+        this._eventBus.publish(new UpdateOpenAIStoreEvent())
+
         return "User Story saved";
     }
 
@@ -82,6 +88,8 @@ export class WorkItemController {
 
         const feature = await this.executeSaveFeature(featureMessage, epic.id)
 
+        this._eventBus.publish(new UpdateOpenAIStoreEvent())
+
         return "Feature saved";
     }
 
@@ -89,6 +97,8 @@ export class WorkItemController {
     async saveEpic(@Body(new PubSubPipe<EpicMessageDto>(FeatureMessageDto)) epicMessage: EpicMessageDto) {
 
         const epic = await this.executeSaveEpic(epicMessage)
+
+        this._eventBus.publish(new UpdateOpenAIStoreEvent())
 
         return "Project saved";
     }

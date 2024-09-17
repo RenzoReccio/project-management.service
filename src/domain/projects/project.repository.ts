@@ -5,6 +5,8 @@ export abstract class IProjectRepository {
 
     abstract Get(): Promise<Project[]>
 
+    abstract GetWithRelations(): Promise<Project[]>
+    
     abstract GetById(projectId: number): Promise<Project>
 
     abstract Insert(project: Project): Promise<number>;

@@ -1,4 +1,5 @@
 import { EventLog } from "./event-log";
+import { ProjectInformation } from "./project-information";
 
 export abstract class IUtilsRepository {
 
@@ -8,4 +9,5 @@ export abstract class IUtilsRepository {
 
     abstract GetLogs(top: number): Promise<EventLog[]>
 
+    abstract UploadJsonToOpenAI(project: ProjectInformation[]): Promise<boolean>;
 }

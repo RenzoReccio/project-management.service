@@ -9,6 +9,16 @@ import { PersonEntity } from "../entity/person.entity";
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
+    async GetWithRelations(): Promise<Project[]> {
+        let resultProjects = await ProjectEntity.find(
+            {
+                relations: ["state", "epics", "epics.features", "epics.features.userStories", "epics.features.userStories.tasks",
+                    "epics.features.userStories.tasks.assignedTo"
+                ]
+            },
+        )
+        return resultProjects.map(item => ProjectMapper.mapProjectEntityToProject(item));
+    }
     public async GetProjectStates(): Promise<ProjectState[]> {
         return await ProjectStateEntity.find();
     }
@@ -21,9 +31,9 @@ export class ProjectRepository implements IProjectRepository {
     public async GetById(projectId: number): Promise<Project> {
         let result = await ProjectEntity.findOne(
             {
-                relations: ["state", "assigned"], 
-                where: { id: projectId } ,
-                order: { id: "DESC"}
+                relations: ["state", "assigned"],
+                where: { id: projectId },
+                order: { id: "DESC" }
             });
         return ProjectMapper.mapProjectEntityToProject(result)
     }

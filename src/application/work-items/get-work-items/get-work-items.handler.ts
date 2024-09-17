@@ -16,8 +16,8 @@ export class GetWorkItemsHandler implements ICommandHandler<GetWorkItemsQuery, G
 
     async execute(command: GetWorkItemsQuery): Promise<GetWorkItemsResponse[]> {
         let result = await this._epicRepository.GetBackLogByProjectId(command.projectId);
-
-        return result.map(item => this.mapEpicToWorkItemResponse(item));
+        let backlog = result.map(item => this.mapEpicToWorkItemResponse(item));
+        return backlog
     }
     mapEpicToWorkItemResponse(epic: Epic) {
         return new GetWorkItemsResponse(epic.id, epic.externalId, 'Epic', epic.title,
