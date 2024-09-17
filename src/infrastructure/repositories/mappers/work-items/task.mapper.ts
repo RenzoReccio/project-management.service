@@ -1,6 +1,7 @@
 import { Task } from "src/domain/work-items/tasks/task";
 import { TaskEntity } from "src/infrastructure/entity/task.entity";
 import { UserStoryMapper } from "./user-story.mapper";
+import { PersonMapper } from "../person.mapper";
 
 export class TaskMapper {
 
@@ -13,7 +14,7 @@ export class TaskMapper {
             iterationPath: taskEntity.iterationPath,
             state: taskEntity.state,
             reason: taskEntity.reason,
-            assignedTo: null,
+            assignedTo: taskEntity.assignedTo ? PersonMapper.mapPersonEntityToPerson(taskEntity.assignedTo) : null,
             title: taskEntity.title,
             remainingWork: taskEntity.remainingWork,
             originalEstimate: taskEntity.originalEstimate,

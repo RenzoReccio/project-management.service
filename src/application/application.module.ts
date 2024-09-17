@@ -19,7 +19,7 @@ import { TaskRepository } from "src/infrastructure/repositories/work-items/task.
 import { UserStoryRepository } from "src/infrastructure/repositories/work-items/user-story";
 import { EventLog, EventLogSchema } from "src/infrastructure/schema/event-log.schema";
 import { GenerateInvoiceHandler } from "./invoices/commands/generate-invoice/generate-invoice.handler";
-import { GetEventsLogsHandler } from "./utils/get-events-logs/get-events-logs.handler";
+import { GetEventsLogsHandler } from "./utils/queries/get-events-logs/get-events-logs.handler";
 import { SaveEpicHandler } from "./work-items/epics/save-epic/save-epic.handler";
 import { SaveFeatureHandler } from "./work-items/features/save-feature/save-feature.handler";
 import { SaveTaskHandler } from "./work-items/tasks/save-task/save-task.handler";
@@ -41,6 +41,7 @@ import { GetEvaluationsHandler } from "./evaluation/queries/get-evaluations/get-
 import { GetCurrentEvaluationHandler } from "./evaluation/queries/get-current-evaluation/get-current-evaluation.handler";
 import { GetProjectStatesHandler } from "./projects/queries/get-project-states/get-project-states.handler";
 import { GetInvoicesHandler } from "./invoices/queries/get-invoices/get-invoices.handler";
+import { UpdateOpenAIStoreHandler } from "./utils/events/update-openai-store/update-openai-store.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
@@ -69,6 +70,10 @@ export const QueryHandlers = [
     GetInvoicesHandler
 ]
 
+export const EventHandlers = [
+    UpdateOpenAIStoreHandler,
+]
+
 export const Providers: Provider[] = [
     { provide: IEpicRepository, useClass: EpicRepository },
     { provide: IFeatureRepository, useClass: FeatureRepository },
@@ -91,6 +96,7 @@ export const Providers: Provider[] = [
         ...Providers,
         ...CommandHandlers,
         ...QueryHandlers,
+        ...EventHandlers,
     ]
 })
 export class ApplicationModule { }

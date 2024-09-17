@@ -1,6 +1,7 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProjectStateEntity } from "./project-state.entity";
 import { PersonEntity } from "./person.entity";
+import { EpicEntity } from "./epic.entity";
 
 @Entity("project")
 export class ProjectEntity extends BaseEntity {
@@ -24,4 +25,7 @@ export class ProjectEntity extends BaseEntity {
 
     @ManyToOne(() => PersonEntity, { nullable: true })
     assigned: PersonEntity;
+
+    @OneToMany(() => EpicEntity, (epic) => epic.project)
+    epics: EpicEntity[]
 }

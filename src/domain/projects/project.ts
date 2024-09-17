@@ -1,3 +1,4 @@
+import { Epic } from "../work-items/epics/epic";
 import { Person } from "../work-items/person";
 import { ProjectState } from "./project-state";
 
@@ -10,6 +11,7 @@ export class Project {
     createdDate: Date;
     state: ProjectState;
     assigned: Person;
+    epics: Epic[];
     constructor(
         id: number,
         title: string,
@@ -26,5 +28,9 @@ export class Project {
         this.createdDate = createdDate
         this.state = state
         this.assigned = assigned
+    }
+
+    setEpics(epics: Epic[]) {
+        this.epics = epics
     }
 }
