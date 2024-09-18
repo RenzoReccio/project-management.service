@@ -55,13 +55,13 @@ export class WorkItemController {
     @Post("task")
     async saveTask(@Body(new PubSubPipe<TaskMessageDto>(TaskMessageDto)) taskMessage: TaskMessageDto) {
 
-        const epic = await this.executeSaveEpic(taskMessage.UserStoryParent.FeatureParent.ParentEpic)
+        // const epic = await this.executeSaveEpic(taskMessage.UserStoryParent.FeatureParent.ParentEpic)
 
-        const feature = await this.executeSaveFeature(taskMessage.UserStoryParent.FeatureParent, epic.id)
+        // const feature = await this.executeSaveFeature(taskMessage.UserStoryParent.FeatureParent, epic.id)
 
-        const userStory = await this.executeSaveUserStory(taskMessage.UserStoryParent, feature.id)
+        // const userStory = await this.executeSaveUserStory(taskMessage.UserStoryParent, feature.id)
 
-        const task = await this.executeSaveTask(taskMessage, userStory.id)
+        // const task = await this.executeSaveTask(taskMessage, userStory.id)
 
         this._eventBus.publish(new UpdateOpenAIStoreEvent())
         return "Task saved";

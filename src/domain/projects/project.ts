@@ -1,3 +1,5 @@
+import { Evaluation } from "../evaluations/evaluation";
+import { Invoice } from "../invoices/invoice";
 import { Epic } from "../work-items/epics/epic";
 import { Person } from "../work-items/person";
 import { ProjectState } from "./project-state";
@@ -12,6 +14,8 @@ export class Project {
     state: ProjectState;
     assigned: Person;
     epics: Epic[];
+    invoices: Invoice[];
+
     constructor(
         id: number,
         title: string,
@@ -32,5 +36,9 @@ export class Project {
 
     setEpics(epics: Epic[]) {
         this.epics = epics
+    }
+
+    setInvoices(invoices: Invoice[]) {
+        this.invoices = invoices
     }
 }

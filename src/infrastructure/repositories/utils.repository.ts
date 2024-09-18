@@ -8,6 +8,7 @@ import * as fs from "fs";
 import { promises as fsPromises } from 'fs';
 import { OPENAI_ASSISTANT_AI, OPENAI_KEY } from "src/config";
 import { v4 as uuidv4 } from 'uuid';
+import { OpeanAIInformation } from "src/domain/utils/project-information";
 
 
 @Injectable()
@@ -18,13 +19,14 @@ export class UtilsRepository implements IUtilsRepository {
     ) {
         this.openai = new OpenAI({ apiKey: OPENAI_KEY() });
     }
-    async UploadJsonToOpenAI(project: any): Promise<boolean> {
+    async UploadJsonToOpenAI(project: OpeanAIInformation): Promise<boolean> {
 
         let uuid = uuidv4()
 
-        await fsPromises.writeFile(`db-${uuid}.json`, JSON.stringify(project), 'utf8');
+        await fsPromises.writeFile(`db-projects-${uuid}.json`, JSON.stringify(project.projects), 'utf8');
+        await fsPromises.writeFile(`db-evaluations-${uuid}.json`, JSON.stringify(project.evaluations), 'utf8');
 
-        const fileStreams = [`db-${uuid}.json`].map((path) =>
+        const fileStreams = [`db-projects-${uuid}.json`, `db-evaluations-${uuid}.json`].map((path) =>
             fs.createReadStream(path),
         );
 

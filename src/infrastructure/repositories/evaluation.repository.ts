@@ -4,6 +4,12 @@ import { EvaluationEntity } from "../entity/evaluation.entity";
 import { EvaluationMapper } from "./mappers/evaluation.mapper";
 
 export class EvaluationRepository implements IEvaluationRepository {
+    async Get(): Promise<Evaluation[]> {
+        let result = await EvaluationEntity.find(
+            { order: { id: "DESC" }, relations: ["person"] },
+        )
+        return result.map(EvaluationMapper.mapEvaluationEntityToEvaluation);
+    }
     async CloseEvaluation(id: number): Promise<void> {
         await EvaluationEntity.save({
             id: id,

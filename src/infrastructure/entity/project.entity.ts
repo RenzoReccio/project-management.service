@@ -2,6 +2,8 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, Pri
 import { ProjectStateEntity } from "./project-state.entity";
 import { PersonEntity } from "./person.entity";
 import { EpicEntity } from "./epic.entity";
+import { EvaluationEntity } from "./evaluation.entity";
+import { InvoiceEntity } from "./invoice.entity";
 
 @Entity("project")
 export class ProjectEntity extends BaseEntity {
@@ -28,4 +30,7 @@ export class ProjectEntity extends BaseEntity {
 
     @OneToMany(() => EpicEntity, (epic) => epic.project)
     epics: EpicEntity[]
+
+    @OneToMany(() => InvoiceEntity, (invoice) => invoice.project)
+    invoices: InvoiceEntity[];
 }

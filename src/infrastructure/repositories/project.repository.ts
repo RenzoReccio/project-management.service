@@ -13,7 +13,7 @@ export class ProjectRepository implements IProjectRepository {
         let resultProjects = await ProjectEntity.find(
             {
                 relations: ["state", "epics", "epics.features", "epics.features.userStories", "epics.features.userStories.tasks",
-                    "epics.features.userStories.tasks.assignedTo"
+                    "epics.features.userStories.tasks.assignedTo", "invoices", "invoices.detailInvoice"
                 ]
             },
         )

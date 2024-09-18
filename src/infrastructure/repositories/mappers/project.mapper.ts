@@ -3,6 +3,7 @@ import { ProjectEntity } from "src/infrastructure/entity/project.entity";
 import { ProjectStateMapper } from "./project-state.mapper";
 import { PersonMapper } from "./person.mapper";
 import { EpicMapper } from "./work-items/epic.mapper";
+import { InvoiceMapper } from "./invoice.mapper";
 
 export class ProjectMapper {
     public static mapProjectEntityToProject(projectEntity: ProjectEntity): Project {
@@ -16,6 +17,8 @@ export class ProjectMapper {
             projectEntity.assigned ? PersonMapper.mapPersonEntityToPerson(projectEntity.assigned) : null
         );
         project.setEpics(projectEntity.epics ? projectEntity.epics.map(EpicMapper.mapEpicEntityToEpic) : [])
+        project.setInvoices(projectEntity.invoices ? projectEntity.invoices.map(InvoiceMapper.mapInvoiceEntityToInvoice) : [])
+        
         return project;
     }
 }
