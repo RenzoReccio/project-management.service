@@ -1,19 +1,13 @@
+import { Person } from "../work-items/person"
+
 export class User {
 
     id: number
-    displayName: string
-    externalId: string
-    uniqueName: string
-
-    constructor(
-        id: number,
-        displayName: string,
-        externalId: string,
-        uniqueName: string,
-    ) {
+    password: string
+    person: Person
+    constructor(id: number, password: string, person: Person) {
         this.id = id
-        this.displayName = displayName
-        this.externalId = externalId
-        this.uniqueName = uniqueName
+        this.password = password
+        this.person = person
     }
 }

@@ -10,3 +10,4 @@ export const DB_URL_MONGO = () => process.env.DB_URL_MONGO;
 export const DB_NAME_MONGO = () => process.env.DB_NAME_MONGO;
 export const OPENAI_KEY = () => process.env.OPENAI_KEY;
 export const OPENAI_ASSISTANT_AI = () => process.env.OPENAI_ASSISTANT_AI;
+export const SECRET_KEY_JWT = () => process.env.SECRET_KEY_JWT;

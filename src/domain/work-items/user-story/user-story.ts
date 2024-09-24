@@ -1,4 +1,3 @@
-import { User } from "src/domain/users/user";
 import { Comment } from "../comment";
 import { Feature } from "../features/feature";
 import { Task } from "../tasks/task";
