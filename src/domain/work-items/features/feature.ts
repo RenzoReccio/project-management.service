@@ -1,4 +1,3 @@
-import { User } from "src/domain/users/user";
 import { Comment } from "../comment";
 import { Epic } from "../epics/epic";
 import { UserStory } from "../user-story/user-story";

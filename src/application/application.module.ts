@@ -42,6 +42,12 @@ import { GetCurrentEvaluationHandler } from "./evaluation/queries/get-current-ev
 import { GetProjectStatesHandler } from "./projects/queries/get-project-states/get-project-states.handler";
 import { GetInvoicesHandler } from "./invoices/queries/get-invoices/get-invoices.handler";
 import { UpdateOpenAIStoreHandler } from "./utils/events/update-openai-store/update-openai-store.handler";
+import { UserRepository } from "src/infrastructure/repositories/user.repository";
+import { IUserRepository } from "src/domain/users/user.repository";
+import { LoginCommand } from "./users/commands/login/login.command";
+import { CreateUserCommand } from "./users/commands/create-user/create-user.command";
+import { LoginHandler } from "./users/commands/login/login.handler";
+import { CreateUserHandler } from "./users/commands/create-user/create-user.handler";
 
 export const CommandHandlers = [
     SaveEpicHandler,
@@ -53,6 +59,8 @@ export const CommandHandlers = [
     UpdateProjectHandler,
     CloseEvaluationHandler,
     SaveEvaluationHandler,
+    LoginHandler,
+    CreateUserHandler
 ]
 
 export const QueryHandlers = [
@@ -85,6 +93,7 @@ export const Providers: Provider[] = [
     { provide: IUtilsRepository, useClass: UtilsRepository },
     { provide: IProjectRepository, useClass: ProjectRepository },
     { provide: IEvaluationRepository, useClass: EvaluationRepository },
+    { provide: IUserRepository, useClass: UserRepository },
 ]
 
 @Module({

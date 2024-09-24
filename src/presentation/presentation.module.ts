@@ -8,6 +8,7 @@ import { UtilsController } from './controllers/utils.controller';
 import { WorkItemController } from './controllers/work-item.controller';
 import { PersonController } from './controllers/person.controller';
 import { EvaluationController } from './controllers/evaluation.controller';
+import { UserController } from './controllers/user.controller';
 
 @Module({
     imports: [
@@ -21,7 +22,8 @@ import { EvaluationController } from './controllers/evaluation.controller';
         WorkItemController,
         UtilsController,
         PersonController,
-        EvaluationController
+        EvaluationController,
+        UserController
     ],
     providers: [],
 })
