@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { GenerateInvoiceResponse } from "src/application/invoices/commands/generate-invoice/generate-invoice.response";
 import { CreateProjectCommand } from "src/application/projects/commands/create-project/create-project.command";
 import { CustomResponse } from "../dtos/response.model";
 import { CreateProjectDto, UpdateProjectDto } from "../dtos/project.dto";

@@ -22,14 +22,16 @@ export class GetWorkItemsHandler implements ICommandHandler<GetWorkItemsQuery, G
     mapEpicToWorkItemResponse(epic: Epic) {
         return new GetWorkItemsResponse(epic.id, epic.externalId, 'Epic', epic.title,
             epic.state, epic.valueArea, epic.tags,
-            epic.features.map(item => this.mapFeatureToWorkItemResponse(item)), epic.pageUrl
+            epic.features.map(item => this.mapFeatureToWorkItemResponse(item)), epic.pageUrl,
+            epic.assignedTo?.firstName
         )
     }
 
     mapFeatureToWorkItemResponse(feature: Feature) {
         return new GetWorkItemsResponse(feature.id, feature.externalId, 'Feature', feature.title,
             feature.state, feature.valueArea, feature.tags,
-            feature.userStories.map(item => this.mapUserStoryToWorkItemResponse(item)), feature.pageUrl
+            feature.userStories.map(item => this.mapUserStoryToWorkItemResponse(item)), feature.pageUrl,
+            feature.assignedTo?.firstName
         )
     }
 
@@ -37,13 +39,15 @@ export class GetWorkItemsHandler implements ICommandHandler<GetWorkItemsQuery, G
         return new GetWorkItemsResponse(userStory.id, userStory.externalId, 'User Story', userStory.title,
             userStory.state, userStory.valueArea, userStory.tags,
             userStory.tasks.map(item => this.mapTaskToWorkItemResponse(item)),
-            userStory.pageUrl
+            userStory.pageUrl,
+            userStory.assignedTo?.firstName
         )
     }
     mapTaskToWorkItemResponse(task: Task) {
         return new GetWorkItemsResponse(task.id, task.externalId, 'Task', task.title,
             task.state, "", task.tags,
-            undefined, task.pageUrl
+            undefined, task.pageUrl,
+            task.assignedTo?.firstName
         )
     }
 }

@@ -8,6 +8,7 @@ export class GetWorkItemsResponse {
     tags: string;
     items: GetWorkItemsResponse[];
     pageUrl: string;
+    assignedTo: string;
     constructor(
         id: number,
         externalId: number,
@@ -17,7 +18,8 @@ export class GetWorkItemsResponse {
         valueArea: string,
         tags: string,
         items: GetWorkItemsResponse[],
-        pageUrl: string
+        pageUrl: string,
+        assignedTo: string
     ) {
         this.id = id
         this.externalId = externalId
@@ -28,5 +30,6 @@ export class GetWorkItemsResponse {
         this.tags = tags
         this.items = items
         this.pageUrl = pageUrl
+        this.assignedTo = assignedTo
     }
 }

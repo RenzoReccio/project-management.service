@@ -38,7 +38,10 @@ export class EpicRepository implements IEpicRepository {
         let resultEpic = await EpicEntity.find(
             {
                 where: { project: { id: projectId } },
-                relations: ["features", "features.userStories", "features.userStories.tasks"]
+                relations: [
+                    "features", "features.userStories", "features.userStories.tasks",
+                    "assignedTo", "features.assignedTo", "features.userStories.assignedTo", "features.userStories.tasks.assignedTo"
+                ]
             },
         )
 
