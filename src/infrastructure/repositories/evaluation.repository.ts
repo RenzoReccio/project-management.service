@@ -63,7 +63,7 @@ export class EvaluationRepository implements IEvaluationRepository {
     }
     async GetByPerson(personId: number): Promise<Evaluation[]> {
         let result = await EvaluationEntity.find(
-            { where: { person: { id: personId } }, order: { id: "DESC" } },
+            { where: { person: { id: personId } }, order: { createdDate: "DESC" } },
         )
         return result.map(EvaluationMapper.mapEvaluationEntityToEvaluation);
     }
