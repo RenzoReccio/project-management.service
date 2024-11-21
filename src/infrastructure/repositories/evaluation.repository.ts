@@ -6,7 +6,7 @@ import { EvaluationMapper } from "./mappers/evaluation.mapper";
 export class EvaluationRepository implements IEvaluationRepository {
     async Get(): Promise<Evaluation[]> {
         let result = await EvaluationEntity.find(
-            { order: { id: "DESC" }, relations: ["person"] },
+            { order: { createdDate: "DESC" }, relations: ["person"] },
         )
         return result.map(EvaluationMapper.mapEvaluationEntityToEvaluation);
     }
