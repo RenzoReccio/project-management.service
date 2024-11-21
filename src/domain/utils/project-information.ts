@@ -8,7 +8,7 @@ export class OpeanAIInformation {
 }
 
 export class EvaluationInformation {
-    date: Date;
+    date: string;
     createdDate: Date;
     updatedDate: Date;
     score: number;
@@ -30,7 +30,7 @@ export class EvaluationInformation {
         quantityScore: number,
         finalScore: number
     ) {
-        this.date = date
+        this.date = `${date.getMonth() + 1}/${date.getFullYear()}`
         this.createdDate = createdDate
         this.updatedDate = updatedDate
         this.score = score
