@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
-import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { CommandBus, EventBus, QueryBus } from "@nestjs/cqrs";
 import { CustomResponse } from "../dtos/response.model";
 import { SaveEvaluationDto } from "../dtos/evaluation.dto";
 import { SaveEvaluationCommand } from "src/application/evaluation/commands/save-evaluation/save-evaluation.command";
@@ -7,13 +7,16 @@ import { CloseEvaluationCommand } from "src/application/evaluation/commands/clos
 import { Evaluation } from "src/domain/evaluations/evaluation";
 import { GetEvaluationsQuery } from "src/application/evaluation/queries/get-evaluations/get-evaluations.query";
 import { GetCurrentEvaluationQuery } from "src/application/evaluation/queries/get-current-evaluation/get-current-evaluation.query";
+import { UpdateOpenAIStoreEvent } from "src/application/utils/events/update-openai-store/update-openai-store.event";
 
 @Controller('evaluation')
 export class EvaluationController {
 
     constructor(
         private _commandBus: CommandBus,
-        private _queryBus: QueryBus
+        private _queryBus: QueryBus,
+        private _eventBus: EventBus,
+
     ) { }
 
     @Post()
@@ -36,7 +39,7 @@ export class EvaluationController {
     }
 
     @Put("closed/person/:id")
-    async getByProjectId(@Param('id') id: string): Promise<CustomResponse<string>> {
+    async closeEvaluation(@Param('id') id: string): Promise<CustomResponse<string>> {
         const command = new CloseEvaluationCommand(Number(id))
         await this._commandBus.execute(command)
 
@@ -45,6 +48,8 @@ export class EvaluationController {
             `Evaluation Closed`,
             null
         )
+
+        this._eventBus.publish(new UpdateOpenAIStoreEvent())
 
         return response
     }
