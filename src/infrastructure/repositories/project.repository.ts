@@ -24,7 +24,7 @@ export class ProjectRepository implements IProjectRepository {
     }
 
     public async Get(): Promise<Project[]> {
-        let result = await ProjectEntity.find({ relations: ["state"] });
+        let result = await ProjectEntity.find({ relations: ["state"], order: { id: 'DESC' } });
         return result.map(item => ProjectMapper.mapProjectEntityToProject(item));
     }
 
